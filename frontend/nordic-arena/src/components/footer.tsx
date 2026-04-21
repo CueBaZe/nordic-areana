@@ -5,12 +5,12 @@ export default function Footer() {
             
                 <div className="max-w-6xl mx-auto grid grid-cols-2 gap-10">
 
-                    <div className="flex flex-col space-y-1 max-w-md">
+                    <div className="flex flex-col space-y-1 max-w-md text-center">
                         <h1 className="text-xl font-bold mb-2">Privacy Policy for Nordic Arena</h1>
                         <p className="text-slate-200">Nordic Arena kan registrere personoplysninger som for eksempel dit navn, din email-adresse, dit telefonnummer, samt oplysninger om dine bookinger og aktiviteter på platformen. Der kan også blive registreret tekniske oplysninger som IP-adresse og enhedsdata for at sikre funktionalitet og sikkerhed</p>
                     </div>
 
-                    <div className="flex flex-col space-y-1">
+                    <div className="flex flex-col space-y-1 text-center">
                         <h1 className="text-xl font-bold mb-2">Kontakt</h1>
 
                         <p className="text-slate-200">Email: hello@nordicarena.dev</p>
