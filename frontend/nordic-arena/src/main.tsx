@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import Dashboard from './Dashboard.tsx'
+import Dashboard from './screens/Dashboard.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <Dashboard />
