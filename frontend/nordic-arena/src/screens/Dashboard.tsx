@@ -27,23 +27,25 @@
               </div>
             </Link>
 
-            <div className="bg-[#E0F2FE] border border-1 border-[#DBEAFE] rounded w-[450px] h-[400px] transition duration-300 hover:scale-105">
-              <div className="flex w-full bg-[#1E3A8A] rounded-t h-[40px] items-center justify-center text-center">
-                <h1 className="text-white text-2xl font-semibold">Dine baner</h1>
-              </div>
-              <div className="flex items-center justify-center mt-4">
-                <img 
-                  src={baneImage} 
-                  alt="sport" 
-                  className="w-[350px] h-[250px] object-cover rounded"
-                />
-              </div>
+            <Link to="/bookninger">
+              <div className="bg-[#E0F2FE] border border-1 border-[#DBEAFE] rounded w-[450px] h-[400px] transition duration-300 hover:scale-105">
+                <div className="flex w-full bg-[#1E3A8A] rounded-t h-[40px] items-center justify-center text-center">
+                  <h1 className="text-white text-2xl font-semibold">Dine baner</h1>
+                </div>
+                <div className="flex items-center justify-center mt-4">
+                  <img 
+                    src={baneImage} 
+                    alt="sport" 
+                    className="w-[350px] h-[250px] object-cover rounded"
+                  />
+                </div>
 
-              <div className="flex items-center justify-center text-center m-4 h-[60px]">
-                <p className="text-[#0F176B] text-lg">Få et overblik over dine aktuelle reservationer.</p>
-              </div>  
-              
-            </div>
+                <div className="flex items-center justify-center text-center m-4 h-[60px]">
+                  <p className="text-[#0F176B] text-lg">Få et overblik over dine aktuelle reservationer.</p>
+                </div>  
+                
+              </div>
+            </Link>
           </div>
         </Mainlayout>
       </div>
