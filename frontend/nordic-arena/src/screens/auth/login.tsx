@@ -43,8 +43,11 @@ export default function Login() {
                         Login
                     </button>
 
-                    <div>
+                    <div className="flex flex-col text-center gap-[2px]">
                         <p className="text-md text-[#0F176B]">Ingen account? <Link to={'/register'}><span className="underline transition duration-300 hover:text-[#5C71AB]">Klik her</span></Link></p>
+                        <Link to={'/'}>
+                            <p className="text-sm text-[#0F176B] transition duration-300 hover:text-[#5C71AB]">Forsæt som gæst</p>
+                        </Link>
                     </div>
 
                 </div>
