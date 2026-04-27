@@ -6,11 +6,10 @@ export default function Login() {
     return (
         <div className="relative flex flex-col items-center justify-center h-screen bg-[#F0F9FF] overflow-hidden">
             
-            <Link to={'/'}>
-                <div className="md:absolute top-5 left-5">
-                    <img src={logo} alt="logo" width={150}/>
-                </div>
-            </Link>
+            <div className="md:absolute top-5 left-5">
+                <img src={logo} alt="logo" width={150}/>
+            </div>
+
 
             <div className="flex flex-col items-center w-[340px] md:w-[450px]">
                 
@@ -46,7 +45,7 @@ export default function Login() {
                     <div className="flex flex-col text-center gap-[2px]">
                         <p className="text-md text-[#0F176B]">Ingen account? <Link to={'/register'}><span className="underline transition duration-300 hover:text-[#5C71AB]">Klik her</span></Link></p>
                         <Link to={'/'}>
-                            <p className="text-sm text-[#0F176B] transition duration-300 hover:text-[#5C71AB]">Forsæt som gæst</p>
+                            <p className="text-sm text-[#0F176B] transition duration-300 hover:text-[#5C71AB] underline">Forsæt som gæst</p>
                         </Link>
                     </div>
 

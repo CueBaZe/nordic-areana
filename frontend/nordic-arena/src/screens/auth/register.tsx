@@ -7,11 +7,9 @@ export default function Register() {
     return (
         <div className="relative flex flex-col items-center justify-center h-screen bg-[#F0F9FF] overflow-hidden">
             
-            <Link to={'/'}>
-                <div className="md:absolute top-5 left-5">
-                    <img src={logo} alt="logo" width={150}/>
-                </div>
-            </Link>
+            <div className="md:absolute top-5 left-5">
+                <img src={logo} alt="logo" width={150}/>
+            </div>
 
             <div className="flex flex-col items-center w-[340px] md:w-[450px]">
                 
