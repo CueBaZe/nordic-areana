@@ -8,12 +8,12 @@ export default function Register() {
         <div className="relative flex flex-col items-center justify-center h-screen bg-[#F0F9FF] overflow-hidden">
             
             <Link to={'/'}>
-                <div className="absolute top-5 left-5">
+                <div className="md:absolute top-5 left-5">
                     <img src={logo} alt="logo" width={150}/>
                 </div>
             </Link>
 
-            <div className="flex flex-col items-center w-[350px] md:w-[450px]">
+            <div className="flex flex-col items-center w-[340px] md:w-[450px]">
                 
                 {/* Header */}
                 <div className="bg-[#1E3A8A] border border-[#DBEAFE] w-full text-center rounded-t-lg">
