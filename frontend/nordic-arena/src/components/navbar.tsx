@@ -11,10 +11,12 @@ export default function Navbar() {
                 </Link>
                 <h1 className="text-white text-4xl font-bold p-4">Nordic Arena</h1>
             </div>
-            <div className="flex flex-col items-center justify-center text-white text-center hover:cursor-pointer">
-                <FaLock className="text-2xl" />
-                <span className="text-md">Login</span>
-            </div>
+            <Link to={'/login'}>
+                <div className="flex flex-col items-center justify-center text-white text-center hover:cursor-pointer">
+                    <FaLock className="text-2xl" />
+                    <span className="text-md">Login</span>
+                </div>
+            </Link>
         </div>
     )
 }
