@@ -24,6 +24,8 @@ class AuthService {
             return ['success' => false, 'message' => 'Mailen er allerede i brug'];
         }
 
-        //make the user in the database
+        //Add the user to the database
+
+        //send back a response to the controller
     }
 }
