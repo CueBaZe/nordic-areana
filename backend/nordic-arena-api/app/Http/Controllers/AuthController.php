@@ -45,7 +45,6 @@ class AuthController extends Controller
             ],
             'password' => [
                 'required',
-                'confirmed',    
                 Password::min(8)
                     ->letters()      // Must have at least one letter
                     ->mixedCase()    // Must have both uppercase and lowercase
