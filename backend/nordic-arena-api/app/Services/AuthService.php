@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class AuthService {
     public function attemptLogin(array $credentials) {
@@ -24,8 +25,14 @@ class AuthService {
             return ['success' => false, 'message' => 'Mailen er allerede i brug'];
         }
 
-        //Add the user to the database
+        User::create([
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'password' => Hash::make($password)
+        ]);
 
-        //send back a response to the controller
+        return ['success' => true, 'message' => 'User oprettet'];
+
     }
 }
