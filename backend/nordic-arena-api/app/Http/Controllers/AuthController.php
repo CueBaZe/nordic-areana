@@ -55,10 +55,16 @@ class AuthController extends Controller
             ],
         ]);
 
-        //call the authService (Register)
+        $result = $this->authService->Register($request->name, $request->email, $request->phone, $request->password);
 
-        //check result 
+        if (!$result['success']) {
+            return response()->json([
+                'message' => $result['message']
+            ], 403);
+        }
 
-        //response back to client
+        return response()->json([
+            'message' => $result['message'],
+        ]);
     }
 }
