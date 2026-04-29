@@ -43,6 +43,7 @@ export default function Login() {
             } else {
                 if (Data.user) {
                     console.log(Data.user);
+                    //redirect to dashboard with userData
                 }
             }
 
@@ -72,12 +73,17 @@ export default function Login() {
 
                 {/* Form Body */}
 
-                <div className="flex flex-col bg-[#E0F2FE] w-full items-center rounded-b-lg gap-[50px] py-6">
-
+                <form 
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        handleLogin();
+                    }}
+                    className="flex flex-col bg-[#E0F2FE] w-full items-center rounded-b-lg gap-[50px]"
+                >
                     <div>
-                            <div className="flex w-full h-[50px] text-center items-center">
+                            <div className="flex w-full h-[50px] text-center items-center"> {/* Error Box */}
                                 {errors.length > 0 && (
-                                    <div className="bg-red-200 rounded-lg p-2">
+                                    <div className="bg-[#DBEAFE] border border-1 border-[#C5D3E5] rounded-lg p-2">
                                         <p className="text-red-600 text-sm text-center font-medium">
                                             {errors[0]}
                                         </p>
@@ -115,7 +121,7 @@ export default function Login() {
                     ) : (
                         /* This shows when loading is FALSE */
                         <button 
-                            onClick={handleLogin} 
+                            type="submit"
                             className="bg-[#1E3A8A] text-white text-xl py-2 px-10 rounded-xl transition duration-300 hover:scale-110 hover:bg-[#3F579C]"
                         >
                             Login
@@ -129,7 +135,7 @@ export default function Login() {
                         </Link>
                     </div>
 
-                </div>
+                </form>
             </div>
         </div>
     );
