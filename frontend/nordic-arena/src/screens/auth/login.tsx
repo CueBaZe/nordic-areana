@@ -8,12 +8,12 @@ export default function Login() {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
-    const [errors, setErrors] = useState<string[]>([]);
+    const [errors, setErrors] = useState<string>();
 
     const handleLogin = async () => {
         //fetch login endpoint
         setLoading(true);
-        setErrors([]);
+        setErrors('');
 
         try {
             const response = await fetch('http://127.0.0.1/api/login', {
@@ -30,16 +30,16 @@ export default function Login() {
             if (!response.ok) {
                 let errorMessage = "Der opstod en fejl.";
 
-            if (Data.errors) {
+                if (Data.errors) {
 
-                const firstField = Object.keys(Data.errors)[0];
+                    const firstField = Object.keys(Data.errors)[0];
 
-                errorMessage = Data.errors[firstField][0];
-            } else if (Data.message) {
-                errorMessage = Data.message;
-            }
+                    errorMessage = Data.errors[firstField][0];
+                } else if (Data.message) {
+                    errorMessage = Data.message;
+                }
 
-            setErrors([errorMessage]);
+                setErrors(errorMessage);
             } else {
                 if (Data.user) {
                     console.log(Data.user);
@@ -47,10 +47,9 @@ export default function Login() {
                 }
             }
 
-
             }
         catch (err) {
-            setErrors(["Kunne ikke forbinde til serveren."]);
+            setErrors("Kunne ikke forbinde til serveren.");
         } finally {
             setLoading(false);
         }
@@ -81,15 +80,15 @@ export default function Login() {
                     className="flex flex-col bg-[#E0F2FE] w-full items-center rounded-b-lg gap-[50px]"
                 >
                     <div>
-                            <div className="flex w-full h-[50px] text-center items-center"> {/* Error Box */}
-                                {errors.length > 0 && (
-                                    <div className="bg-[#DBEAFE] border border-1 border-[#C5D3E5] rounded-lg p-2">
-                                        <p className="text-red-600 text-sm text-center font-medium">
-                                            {errors[0]}
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
+                        <div className="flex w-full h-[50px] text-center items-center mt-4"> {/* Error Box */}
+                            {errors && (
+                                <div className="bg-[#DBEAFE] border border-1 border-[#C5D3E5] rounded-lg p-2">
+                                    <p className="text-red-600 text-sm text-center font-medium">
+                                        {errors}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     <div className="flex flex-row items-center gap-[8px]"> {/* Email input */}
@@ -128,7 +127,7 @@ export default function Login() {
                         </button>
                     )}
 
-                    <div className="flex flex-col text-center gap-[2px]">
+                    <div className="flex flex-col text-center gap-[2px] mb-8">
                         <p className="text-md text-[#0F176B]">Ingen account? <Link to={'/register'}><span className="underline transition duration-300 hover:text-[#5C71AB]">Klik her</span></Link></p>
                         <Link to={'/'}>
                             <p className="text-sm text-[#0F176B] transition duration-300 hover:text-[#5C71AB] underline">Forsæt som gæst</p>

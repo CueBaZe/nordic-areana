@@ -49,7 +49,6 @@ class AuthController extends Controller
                     ->letters()      // Must have at least one letter
                     ->mixedCase()    // Must have both uppercase and lowercase
                     ->numbers()      // Must have at least one number
-                    ->symbols()      // Must have at least one special character (@, #, $, etc.)
                     ->uncompromised(), // The "Magic" rule: checks if the password has been leaked in a data breach!
             ],
         ]);
