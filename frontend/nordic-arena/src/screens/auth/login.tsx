@@ -2,6 +2,9 @@ import { FaUser, FaLock } from "react-icons/fa";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../../components/authContext";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Login() {
 
@@ -9,6 +12,9 @@ export default function Login() {
     const [password, setPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [errors, setErrors] = useState<string>();
+
+    const { login } = useAuth();
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
         //fetch login endpoint
@@ -42,8 +48,15 @@ export default function Login() {
                 setErrors(errorMessage);
             } else {
                 if (Data.user) {
-                    console.log(Data.user);
-                    //redirect to dashboard with userData
+                    const safeUser = {
+                        name: Data.user.name,
+                        email: Data.user.email
+                    };
+
+                    login(safeUser);
+                    
+
+                    navigate('/')
                 }
             }
 
@@ -80,9 +93,9 @@ export default function Login() {
                     className="flex flex-col bg-[#E0F2FE] w-full items-center rounded-b-lg gap-[50px]"
                 >
                     <div>
-                        <div className="flex w-full h-[50px] text-center items-center mt-4"> {/* Error Box */}
+                        <div className="flex w-full h-[50px] text-center items-center justify-center mt-4"> 
                             {errors && (
-                                <div className="bg-[#DBEAFE] border border-1 border-[#C5D3E5] rounded-lg p-2">
+                                <div key={errors} className="bg-[#DBEAFE] border border-[#C5D3E5] rounded-lg p-2 w-full">
                                     <p className="text-red-600 text-sm text-center font-medium">
                                         {errors}
                                     </p>
