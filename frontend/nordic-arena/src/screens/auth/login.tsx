@@ -49,6 +49,7 @@ export default function Login() {
             } else {
                 if (Data.user) {
                     const safeUser = {
+                        id: Data.user.id,
                         name: Data.user.name,
                         email: Data.user.email
                     };
