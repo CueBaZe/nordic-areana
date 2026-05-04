@@ -51,7 +51,8 @@ export default function Login() {
                     const safeUser = {
                         id: Data.user.id,
                         name: Data.user.name,
-                        email: Data.user.email
+                        email: Data.user.email,
+                        phone: Data.user.phone
                     };
 
                     login(safeUser);
