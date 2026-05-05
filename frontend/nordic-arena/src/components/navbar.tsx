@@ -6,7 +6,7 @@ import ProfileInfo from "./profileInfo";
 import { useState } from "react";
 
 export default function Navbar() {
-    const { user, logout } = useAuth();
+    const { user } = useAuth();
     const [showProfileInfo, setShowProfileInfo] = useState<boolean>(false);
 
     return (
