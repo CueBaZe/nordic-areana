@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface User {
     id: number,
@@ -20,6 +21,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         const saved = sessionStorage.getItem('user_session');
         return saved ? JSON.parse(saved) : null;
     });
+    const navigate = useNavigate();
 
     const login = (userData: User) =>{
         setUser(userData);
@@ -28,6 +30,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
     const logout = () => { 
         setUser(null); 
+        navigate('/');
         sessionStorage.removeItem('user_session');
     }
 
