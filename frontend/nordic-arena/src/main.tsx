@@ -10,6 +10,12 @@ import Login from './screens/auth/login.tsx'
 import Register from './screens/auth/register.tsx'
 import NeedLogin from './screens/needlogin.tsx'
 
+import Padel from './screens/bookingPages/padel.tsx'
+import Tennis from './screens/bookingPages/tennis.tsx'
+import Bordtennis from './screens/bookingPages/bordtennis.tsx'
+import Badminton from './screens/bookingPages/badminton.tsx'
+import Fodbold from './screens/bookingPages/fodbold.tsx'
+
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <AuthProvider>
@@ -20,6 +26,12 @@ createRoot(document.getElementById('root')!).render(
         <Route path='/login' element={<Login />}/>
         <Route path='/register' element={<Register />}/>
         <Route path='/forbidden' element={<NeedLogin />}/>
+
+        <Route path='/booking/padel' element={<Padel />}/>
+        <Route path='/booking/tennis' element={<Tennis />}/>
+        <Route path='/booking/bordtennis' element={<Bordtennis />}/>
+        <Route path='/booking/badminton' element={<Badminton />}/>
+        <Route path='/booking/foldbold' element={<Fodbold />}/>
       </Routes>
     </AuthProvider>
   </BrowserRouter>
