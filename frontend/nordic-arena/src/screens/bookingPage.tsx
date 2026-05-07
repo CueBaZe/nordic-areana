@@ -18,7 +18,7 @@ export default function BookingPage() {
                     <div className="flex items-center justify-center mt-4">
                         <img 
                             src={paddleImage}
-                            alt="paddle" 
+                            alt="padel" 
                             className="w-[350px] h-[250px] object-cover rounded"
                         />
                     </div>
@@ -36,7 +36,7 @@ export default function BookingPage() {
                     <div className="flex items-center justify-center mt-4">
                         <img 
                             src={tennisImage}
-                            alt="paddle" 
+                            alt="tennis" 
                             className="w-[350px] h-[250px] object-cover rounded"
                         />
                     </div>
@@ -54,7 +54,7 @@ export default function BookingPage() {
                     <div className="flex items-center justify-center mt-4">
                         <img 
                             src={badmintonImage}
-                            alt="paddle" 
+                            alt="badminton" 
                             className="w-[350px] h-[250px] object-cover rounded"
                         />
                     </div>
@@ -72,7 +72,7 @@ export default function BookingPage() {
                     <div className="flex items-center justify-center mt-4">
                         <img 
                             src={bordtennisImage}
-                            alt="paddle" 
+                            alt="bordtennis" 
                             className="w-[350px] h-[250px] object-cover rounded"
                         />
                     </div>
@@ -90,7 +90,7 @@ export default function BookingPage() {
                     <div className="flex items-center justify-center mt-4">
                         <img 
                             src={footballImage}
-                            alt="paddle" 
+                            alt="fodbold" 
                             className="w-[350px] h-[250px] object-cover rounded"
                         />
                     </div>
