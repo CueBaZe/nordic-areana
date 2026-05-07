@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('type');
-            $table->time('openingTime');
-            $table->time('closingTime');
+            $table->time('opening_time');
+            $table->time('closing_time');
             $table->integer('price');
             $table->timestamps();
         });
