@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bane extends Model
 {
+
+        protected $table = 'baner';
+
     protected $fillable = [
         'title', 
         'type', 

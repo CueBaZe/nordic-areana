@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 export default function Padel() {
     const today = Temporal.Now.plainDateISO().toString();
     const [selectedDate, setSelectedDate] = useState<string>(today);
+    const [events, setEvents] = useState<CalendarEvent[]>([]);
 
     const handleDateChange = (date: string) => { //gets the selected date from calendar component
         setSelectedDate(date);
@@ -15,24 +16,32 @@ export default function Padel() {
     //Function that gets the timeslots from the backend
     useEffect(() => {
         console.log('update with date:', selectedDate)
-        //fetch timeslots from backend
+        const fetchTimeSlots = async () => {
+            const result = await fetch(`http://127.0.0.1:8000/api/getTimeSlots?date=${selectedDate}&type=padel`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            if (!result.ok) {
+                console.log('Error fetching Timeslots');
+                return;
+            }
+
+            const data = await result.json()
+            console.log("RAW API DATA:", data);
+
+            //makes so it puts all the slots into the event useState
+        }
+
+        fetchTimeSlots();
     }, [selectedDate])
-
-
-    const eventsFromDB = [
-        { id: '1', title: 'Paddle', start: '2026-05-08 12:00', end: '2026-05-08 13:00', available: false },
-        { id: '2', title: 'Paddle', start: '2026-05-08 12:00', end: '2026-05-08 13:00', available: true }
-    ];
-
-    const formattedEvents: CalendarEvent[] = eventsFromDB.map(event => ({ //converts the time objects into the right format
-    ...event,
-    start: Temporal.ZonedDateTime.from(`${event.start}[UTC]`), 
-    end: Temporal.ZonedDateTime.from(`${event.end}[UTC]`)
-    }));
 
     return (
         <div>
-            <Calendar initialEvents={formattedEvents} onDateChange={handleDateChange}/>
+            <Calendar initialEvents={events} onDateChange={handleDateChange}/>
         </div>
     );
 }

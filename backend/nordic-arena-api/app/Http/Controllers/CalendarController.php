@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Services\CalendarService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule; 
 
 class CalendarController extends Controller
 {
@@ -12,7 +13,7 @@ class CalendarController extends Controller
         $this->calendarService = $calendarService;
     }
 
-    public function makeTimeSlots(Request $request) {
+    public function getTimeSlots(Request $request) {
         $request->validate([
             "date" => 'required|date',
             "type" => [
@@ -22,6 +23,12 @@ class CalendarController extends Controller
             ]
         ]);
 
+        $slots = $this->calendarService->makeTimeSlots(
+            $request->date, 
+            $request->type
+        );
+
+        return response()->json($slots);
         
     }
 }
