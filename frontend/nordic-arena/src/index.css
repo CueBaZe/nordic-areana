@@ -5,4 +5,13 @@
     max-width: 100vw;
     height: 800px;
     max-height: 90vh;
+
+    overflow-x: auto;
 }
+
+.sx__calendar {
+    min-width: 1200px;
+}
+
+
+

@@ -3,6 +3,7 @@ import { ScheduleXCalendar, useCalendarApp } from "@schedule-x/react";
 import { createViewDay } from "@schedule-x/calendar"
 import Mainlayout from "../mainlayout";
 import { useEffect } from 'react';
+import CustomEventComponent from './calendarComponent';
 
 export interface Slot {
     start: string;
@@ -33,6 +34,7 @@ export default function Calendar({ initialEvents, onDateChange }: CalendarProps)
             createViewDay(),
         ],
         events: [],
+        
         callbacks: {
             onRangeUpdate(range) {
                 const dateOnly = range.start.toPlainDate().toString();
@@ -68,7 +70,10 @@ export default function Calendar({ initialEvents, onDateChange }: CalendarProps)
 
     return (
         <Mainlayout> 
-            <ScheduleXCalendar calendarApp={calender}/>
+            <ScheduleXCalendar calendarApp={calender} 
+            customComponents={{
+                timeGridEvent: CustomEventComponent
+            }}/>
         </Mainlayout>
     );
 }
