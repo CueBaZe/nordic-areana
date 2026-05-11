@@ -15,7 +15,6 @@ export default function Padel() {
 
     //Function that gets the timeslots from the backend
     useEffect(() => {
-        console.log('update with date:', selectedDate)
         const fetchTimeSlots = async () => {
             const result = await fetch(`http://127.0.0.1:8000/api/getTimeSlots?date=${selectedDate}&type=padel`, {
                 method: 'GET',
@@ -30,10 +29,9 @@ export default function Padel() {
                 return;
             }
 
-            const data = await result.json()
-            console.log("RAW API DATA:", data);
+            const data = await result.json();
 
-            //makes so it puts all the slots into the event useState
+            setEvents(data);
         }
 
         fetchTimeSlots();
