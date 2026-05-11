@@ -1,4 +1,54 @@
 @import "tailwindcss";
+@import '@schedule-x/theme-default/dist/index.css';
+
+:root {
+    /* Primary */
+    --sx-color-primary: #1E3A8A;
+    --sx-color-on-primary: #ffffff;
+    --sx-color-primary-container: #DBEAFE;
+    --sx-color-on-primary-container: #172554;
+
+    /* Secondary */
+    --sx-color-secondary: #3B82F6;
+    --sx-color-on-secondary: #ffffff;
+    --sx-color-secondary-container: #E0F2FE;
+    --sx-color-on-secondary-container: #0C4A6E;
+
+    /* Tertiary */
+    --sx-color-tertiary: #0EA5E9;
+    --sx-color-on-tertiary: #ffffff;
+    --sx-color-tertiary-container: #BAE6FD;
+    --sx-color-on-tertiary-container: #082F49;
+
+    /* Surface / Background */
+    --sx-color-surface: #F0F9FF;
+    --sx-color-surface-dim: #DCEEF8;
+    --sx-color-surface-bright: #FFFFFF;
+    --sx-color-on-surface: #0F172A;
+
+    --sx-color-surface-container: #E0F2FE;
+    --sx-color-surface-container-low: #F0F9FF;
+    --sx-color-surface-container-high: #D6ECFF;
+
+    --sx-color-background: #F0F9FF;
+    --sx-color-on-background: #0F172A;
+
+    /* Borders / Outline */
+    --sx-color-outline: #94A3B8;
+    --sx-color-outline-variant: #CBD5E1;
+
+    /* Misc */
+    --sx-color-shadow: #000000;
+    --sx-color-surface-tint: #1E3A8A;
+
+    --sx-color-neutral: var(--sx-color-outline);
+    --sx-color-neutral-variant: var(--sx-color-outline-variant);
+
+    /* Internal */
+    --sx-internal-color-gray-ripple-background: #E2E8F0;
+    --sx-internal-color-light-gray: #F8FAFC;
+    --sx-internal-color-text: #0F172A;
+}
 
 .sx-react-calendar-wrapper {
     width: 1200px;

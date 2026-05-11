@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import '@schedule-x/theme-default/dist/index.css'   
+import './index.css'
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 
