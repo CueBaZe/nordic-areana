@@ -51,4 +51,10 @@ class CalendarService {
 
         return $slots;
     }
+
+    public function getSports() {
+        $sports = DB::table('sports')->get();
+
+        return $sports;
+    }
 }

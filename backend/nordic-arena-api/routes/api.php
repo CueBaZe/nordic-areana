@@ -13,6 +13,7 @@ Route::get('/connection', function () {
 });
 
 Route::get('/getTimeSlots', [CalendarController::class, 'getTimeSlots']);
+Route::get('/getSports', [CalendarController::class, 'getSports']);
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);

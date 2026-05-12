@@ -6,12 +6,18 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/authContext";
 import Mainlayout from "../mainlayout";
 
+interface sports {
+    sport: string,
+    desc: string,
+}
+
 
 export default function CalendarPage() {
     const today = Temporal.Now.plainDateISO().toString();
     const [selectedDate, setSelectedDate] = useState<string>(today);
     const [events, setEvents] = useState<CalendarEvent[]>([]);
     const [type, setType] = useState<string>('');
+    const [sports, setSports] = useState<sports[]>([]);
 
     const { user } = useAuth();
     const navigate = useNavigate()
@@ -27,15 +33,29 @@ export default function CalendarPage() {
             navigate('/forbidden');
         }
 
-        //Fetch sports here
+        const fetchSports = async () => {
+            const result = await fetch(`http://127.0.0.1:8000/api/getSports`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            });
 
+            if (!result.ok) {
+                console.log('Error fetching Sports');
+                return;
+            }
 
-        if (!type) {
-            return;
+            const data = await result.json();
+            setSports(data);
         }
 
-        const fetchTimeSlots = async () => {
-            const result = await fetch(`http://127.0.0.1:8000/api/getTimeSlots?date=${selectedDate}&type=${type} `, {
+        const fetchTimeSlots = async (sportType: string) => {
+
+            if (!sportType) return;
+
+            const result = await fetch(`http://127.0.0.1:8000/api/getTimeSlots?date=${selectedDate}&type=${sportType} `, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -53,7 +73,8 @@ export default function CalendarPage() {
             setEvents(data);
         }
 
-        fetchTimeSlots();
+        fetchSports();
+        fetchTimeSlots(type);
     }, [selectedDate, type])
 
     return (
@@ -66,7 +87,11 @@ export default function CalendarPage() {
                     <option value="" disabled>
                         Vælg en sport...
                     </option>
-                    {/* Loop sport items here */}
+                    {sports.map(sport => (
+                        <option value={sport.sport} key={sport.sport}>
+                            {sport.sport}
+                        </option>
+                    ))}
                 </select>
                 <Calendar initialEvents={events} onDateChange={handleDateChange}/>
             </div>

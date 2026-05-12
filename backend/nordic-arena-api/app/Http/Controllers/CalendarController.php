@@ -19,7 +19,6 @@ class CalendarController extends Controller
             "type" => [
                 'required',
                 'string',
-                Rule::in(['padel', 'tennis', 'bordtennis', 'badminton', 'fodbold'])
             ]
         ]);
 
@@ -30,5 +29,11 @@ class CalendarController extends Controller
 
         return response()->json($slots);
         
+    }
+
+    public function getSports() {
+        $sports = $this->calendarService->getSports();
+
+        return response()->json($sports);
     }
 }
