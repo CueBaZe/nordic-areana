@@ -8,6 +8,7 @@ export interface Slot {
     start: string;
     end: string; 
     date: string;
+    available: boolean;
 }
 
 export interface Court {
@@ -59,6 +60,7 @@ export default function Calendar({ initialEvents, onDateChange }: CalendarProps)
                         title: court.title,
                         start: startZonedDateTime,
                         end: endZonedDateTime,
+                        available: slot.available,
                     };
                 }); 
             });

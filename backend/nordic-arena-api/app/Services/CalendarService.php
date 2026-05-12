@@ -45,7 +45,8 @@ class CalendarService {
             $slots[] = [
                 'start' => $startingTime->format('H:i'),
                 'end' => $currentSlotTime->format('H:i'),
-                'date' => $date
+                'date' => $date,
+                'available' => true,
             ];
         }
 

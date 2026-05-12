@@ -11,14 +11,16 @@ export default function CustomEventComponent ({ calendarEvent }: props) {
 
     return (
         <div className="w-full min-w-[100px] h-full p-[2px]">
-            <div className="bg-[#E0F2FE] w-full min-w-[100px] h-full rounded-md border border-1 border-[#BFDBFE]">
-            <div className="flex flex-col gap-[5px] text-[#0F176B] p-1">
-                <p className="text-xl font-bold">{calendarEvent.title}</p>
-                <p className="text-md">
-                {FormattedStart} - {FormattedEnd}
-                </p>
-            </div>
-            </div>
+            {calendarEvent.available && (
+                <div className="bg-[#E0F2FE] w-full min-w-[100px] h-full rounded-md border border-1 border-[#BFDBFE]">
+                    <div className="flex flex-col gap-[5px] text-[#0F176B] p-1">
+                        <p className="text-xl font-bold">{calendarEvent.title}</p>
+                        <p className="text-md">
+                        {FormattedStart} - {FormattedEnd}
+                        </p>
+                    </div>
+                </div>  
+        )}
         </div>
 );
 }
