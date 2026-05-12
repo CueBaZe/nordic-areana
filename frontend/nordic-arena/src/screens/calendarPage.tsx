@@ -1,13 +1,19 @@
 import 'temporal-polyfill/global';
-import Calendar from "../../components/calendar";
-import type { CalendarEvent } from "../../components/calendar";
+import Calendar from "../components/calendar";
+import type { CalendarEvent } from "../components/calendar";
 import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../components/authContext";
 
 
-export default function Tennis() {
+export default function CalendarPage() {
     const today = Temporal.Now.plainDateISO().toString();
     const [selectedDate, setSelectedDate] = useState<string>(today);
     const [events, setEvents] = useState<CalendarEvent[]>([]);
+    const [type, setType] = useState<string>('');
+
+    const { user } = useAuth();
+    const navigate = useNavigate()
 
     const handleDateChange = (date: string) => { //gets the selected date from calendar component
         setSelectedDate(date);
@@ -15,8 +21,13 @@ export default function Tennis() {
 
     //Function that gets the timeslots from the backend
     useEffect(() => {
+
+        if (!user) {
+            navigate('/forbidden');
+        }
+
         const fetchTimeSlots = async () => {
-            const result = await fetch(`http://127.0.0.1:8000/api/getTimeSlots?date=${selectedDate}&type=tennis `, {
+            const result = await fetch(`http://127.0.0.1:8000/api/getTimeSlots?date=${selectedDate}&type=${type} `, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -35,7 +46,7 @@ export default function Tennis() {
         }
 
         fetchTimeSlots();
-    }, [selectedDate])
+    }, [selectedDate, type])
 
     return (
         <div>
