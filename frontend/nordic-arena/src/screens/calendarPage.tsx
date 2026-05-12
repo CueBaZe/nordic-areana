@@ -33,7 +33,7 @@ export default function CalendarPage() {
             navigate('/forbidden');
         }
 
-        const fetchSports = async () => {
+        const fetchSports = async () => { //fetches the diffrent sports
             const result = await fetch(`http://127.0.0.1:8000/api/getSports`, {
                 method: 'GET',
                 headers: {
@@ -51,7 +51,7 @@ export default function CalendarPage() {
             setSports(data);
         }
 
-        const fetchTimeSlots = async (sportType: string) => {
+        const fetchTimeSlots = async (sportType: string) => { //fetches the timeslots for the sportType
 
             if (!sportType) return;
 
