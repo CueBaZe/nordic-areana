@@ -4,6 +4,7 @@ import type { CalendarEvent } from "../components/calendar";
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/authContext";
+import Mainlayout from "../mainlayout";
 
 
 export default function CalendarPage() {
@@ -24,6 +25,13 @@ export default function CalendarPage() {
 
         if (!user) {
             navigate('/forbidden');
+        }
+
+        //Fetch sports here
+
+
+        if (!type) {
+            return;
         }
 
         const fetchTimeSlots = async () => {
@@ -49,8 +57,19 @@ export default function CalendarPage() {
     }, [selectedDate, type])
 
     return (
-        <div>
-            <Calendar initialEvents={events} onDateChange={handleDateChange}/>
-        </div>
+        <Mainlayout>
+            <div className='flex flex-col gap-[30px]'>
+                <select 
+                    className='h-[40px] w-full max-w-[200px] border border-1 border-[#DBEAFE] rounded px-2'
+                    value={type} onChange={(e) => {setType(e.target.value)}}
+                >
+                    <option value="" disabled>
+                        Vælg en sport...
+                    </option>
+                    {/* Loop sport items here */}
+                </select>
+                <Calendar initialEvents={events} onDateChange={handleDateChange}/>
+            </div>
+        </Mainlayout>
     );
 }

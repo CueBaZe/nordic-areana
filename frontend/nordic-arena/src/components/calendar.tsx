@@ -1,7 +1,6 @@
 import { Temporal } from 'temporal-polyfill';
 import { ScheduleXCalendar, useCalendarApp } from "@schedule-x/react";
 import { createViewDay } from "@schedule-x/calendar"
-import Mainlayout from "../mainlayout";
 import { useEffect } from 'react';
 import CustomEventComponent from './calendarComponent';
 
@@ -69,11 +68,9 @@ export default function Calendar({ initialEvents, onDateChange }: CalendarProps)
 
 
     return (
-        <Mainlayout> 
-            <ScheduleXCalendar calendarApp={calender} 
-            customComponents={{
-                timeGridEvent: CustomEventComponent
-            }}/>
-        </Mainlayout>
+        <ScheduleXCalendar calendarApp={calender} 
+        customComponents={{
+            timeGridEvent: CustomEventComponent
+        }}/>
     );
 }
