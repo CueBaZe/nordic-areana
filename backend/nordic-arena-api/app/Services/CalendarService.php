@@ -34,20 +34,28 @@ class CalendarService {
         $currentTime = Carbon::now();
         $openingTime = Carbon::parse($start);
         $closingTime = Carbon::parse($end);
+        $endOfDay = Carbon::parse($date)->endOfDay();
 
-        $currentSlotTime = $openingTime->Copy();
+        $currentSlotTime = Carbon::parse($date)->startOfDay();
 
-        while ($currentSlotTime->lt($closingTime)) {
-            $startingTime = $currentSlotTime->Copy();
+        while ($currentSlotTime->lt($endOfDay)) {
+            $slotStart = $currentSlotTime->copy();
+            
+            $slotEnd = $currentSlotTime->copy()->addHour();
 
-            $currentSlotTime->addHour();
+            $isOpen = $slotStart->greaterThanOrEqualTo($openingTime) && 
+                $slotEnd->lessThanOrEqualTo($closingTime);
 
             $slots[] = [
-                'start' => $startingTime->format('H:i'),
-                'end' => $currentSlotTime->format('H:i'),
+                'id' => $date . $slotStart->format('Hi'),
+                'start' => $slotStart->format('H:i'),
+                'end' => $slotEnd->format('H:i'),
                 'date' => $date,
                 'available' => true,
+                'open' => $isOpen,
             ];
+
+            $currentSlotTime->addHour();
         }
 
         return $slots;

@@ -9,6 +9,7 @@ export interface Slot {
     end: string; 
     date: string;
     available: boolean;
+    open: boolean;
 }
 
 export interface Court {
@@ -61,6 +62,7 @@ export default function Calendar({ initialEvents, onDateChange }: CalendarProps)
                         start: startZonedDateTime,
                         end: endZonedDateTime,
                         available: slot.available,
+                        open: slot.open,
                     };
                 }); 
             });
