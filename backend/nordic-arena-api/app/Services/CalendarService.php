@@ -23,18 +23,19 @@ class CalendarService {
             return [
                 'id' => $bane->id,
                 'title' => $bane->title,
-                'slots' => $this->generateTimeSlots($bane->opening_time, $bane->closing_time, $date)
+                'slots' => $this->generateTimeSlots($bane->opening_time, $bane->closing_time, $date, $bane->id)
             ];
         });
     }
 
-    function generateTimeSlots($start, $end, $date) {
+    function generateTimeSlots($start, $end, $date, $baneId) {
         $slots = [];
 
         $currentTime = Carbon::now();
-        $openingTime = Carbon::parse($start);
-        $closingTime = Carbon::parse($end);
-        $endOfDay = Carbon::parse($date)->endOfDay();
+        $openingTime = Carbon::parse($start)->setDateFrom(Carbon::parse($date));
+        $closingTime = Carbon::parse($end)->setDateFrom(Carbon::parse($date));
+        $endOfDay = Carbon::parse($date)->endOfDay()->subHour(1);
+
 
         $currentSlotTime = Carbon::parse($date)->startOfDay();
 
@@ -46,12 +47,14 @@ class CalendarService {
             $isOpen = $slotStart->greaterThanOrEqualTo($openingTime) && 
                 $slotEnd->lessThanOrEqualTo($closingTime);
 
+            $isAvailable = true; //Makes so it checks bookings if the timeslot is already booked
+
             $slots[] = [
-                'id' => $date . $slotStart->format('Hi'),
+                'id' => $baneId . '_' . $date . '_' . $slotStart->format('Hi'),
                 'start' => $slotStart->format('H:i'),
                 'end' => $slotEnd->format('H:i'),
                 'date' => $date,
-                'available' => true,
+                'available' => $isAvailable,
                 'open' => $isOpen,
             ];
 

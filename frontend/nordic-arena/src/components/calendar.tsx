@@ -44,6 +44,10 @@ export default function Calendar({ initialEvents, onDateChange }: CalendarProps)
         },
         minDate: today,
         maxDate: twoWeekAhead,
+        dayBoundaries: {
+            start: '01:00',
+            end: '23:00',
+        },
     });
 
     useEffect(() => {   

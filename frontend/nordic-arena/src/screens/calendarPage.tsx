@@ -40,6 +40,7 @@ export default function CalendarPage() {
                 const result = await fetch(`http://127.0.0.1:8000/api/getSports`);
                 if (result.ok) {
                     const data = await result.json();
+                    console.log(data)
                     setSports(data);
                 }
             } catch (err) {
@@ -61,6 +62,7 @@ export default function CalendarPage() {
                 if (result.ok) {
                     const data = await result.json();
                     setEvents(data);
+                    console.log(data)
                 }
             } catch (err) {
                 console.error('Error fetching Timeslots', err);
