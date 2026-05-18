@@ -91,7 +91,7 @@ export default function CalendarPage() {
                     ))}
                 </select>
                 {selectedSportData && (
-                    <div className='w-[500px]'>
+                    <div className='w-[300px] md:w-[500px]'>
                         <p className='text-[#0F176B]'>{selectedSportData.desc}</p>
                     </div>
                 )}
