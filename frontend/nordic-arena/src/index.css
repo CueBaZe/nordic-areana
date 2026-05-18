@@ -54,32 +54,28 @@
     width: 100%;
     max-width: 100vw;
     height: 600px;
-
-    overflow-x: auto;   /* horizontal scroll */
-    overflow-y: hidden; /* optional: prevents vertical weirdness */
+    
+    overflow-y: auto; 
+    overflow-x: auto; 
+    position: relative;
 }
 
-/* lock the calendar width so it never shrinks */
 .sx__calendar {
     width: 1200px;
     min-width: 1200px;
+    height: 100%; 
 }
 
-.sx__event,
-.sx__event-content,
-.sx__event-inner {
-    flex-shrink: 0;
-}
 
 @media (max-width: 768px) {
     .sx-react-calendar-wrapper {
-        zoom: 0.75;
+        zoom: 0.90;
     }
 }
 
 @media (max-width: 480px) {
     .sx-react-calendar-wrapper {
-        zoom: 0.6;
+        zoom: 0.8;
     }
 }
 
