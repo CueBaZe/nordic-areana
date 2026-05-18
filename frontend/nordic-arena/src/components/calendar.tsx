@@ -65,6 +65,7 @@ export default function Calendar({ initialEvents, onDateChange }: CalendarProps)
                         title: court.title,
                         start: startZonedDateTime,
                         end: endZonedDateTime,
+                        date: slot.date,
                         available: slot.available,
                         open: slot.open,
                     };
