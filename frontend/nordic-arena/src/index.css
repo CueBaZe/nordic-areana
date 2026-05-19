@@ -66,6 +66,22 @@
     height: 100%; 
 }
 
+.sx__event-modal {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: #F0F9FF;
+    border-radius: 5px;
+    border: #E2E8F0 solid 1px;
+
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow: auto;
+
+    z-index: 9999;
+}
+
 
 @media (max-width: 768px) {
     .sx-react-calendar-wrapper {

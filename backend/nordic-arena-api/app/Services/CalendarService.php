@@ -35,6 +35,7 @@ class CalendarService {
         $openingTime = Carbon::parse($start)->setDateFrom(Carbon::parse($date));
         $closingTime = Carbon::parse($end)->setDateFrom(Carbon::parse($date));
         $endOfDay = Carbon::parse($date)->endOfDay()->subHour(1);
+        $bane = Bane::where("id", $baneId)->first();
 
 
         $currentSlotTime = Carbon::parse($date)->startOfDay();
@@ -54,6 +55,7 @@ class CalendarService {
                 'start' => $slotStart->format('H:i'),
                 'end' => $slotEnd->format('H:i'),
                 'date' => $date,
+                'price' => $bane->price,
                 'available' => $isAvailable,
                 'open' => $isOpen,
             ];

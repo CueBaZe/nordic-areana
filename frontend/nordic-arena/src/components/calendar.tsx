@@ -1,13 +1,15 @@
 import { Temporal } from 'temporal-polyfill';
 import { ScheduleXCalendar, useCalendarApp } from "@schedule-x/react";
+import { createEventModalPlugin } from '@schedule-x/event-modal'
 import { createViewDay } from "@schedule-x/calendar"
 import { useEffect } from 'react';
-import CustomEventComponent from './calendarComponent';
+import CustomEventComponent, { CustomModalComponent } from './calendarComponent';
 
 export interface Slot {
     start: string;
     end: string; 
     date: string;
+    price: string;
     available: boolean;
     open: boolean;
 }
@@ -48,6 +50,8 @@ export default function Calendar({ initialEvents, onDateChange }: CalendarProps)
             start: '01:00',
             end: '23:00',
         },
+        plugins: [createEventModalPlugin()]
+        
     });
 
     useEffect(() => {   
@@ -66,6 +70,7 @@ export default function Calendar({ initialEvents, onDateChange }: CalendarProps)
                         start: startZonedDateTime,
                         end: endZonedDateTime,
                         date: slot.date,
+                        price: slot.price,
                         available: slot.available,
                         open: slot.open,
                     };
@@ -79,7 +84,8 @@ export default function Calendar({ initialEvents, onDateChange }: CalendarProps)
     return (
         <ScheduleXCalendar calendarApp={calender} 
         customComponents={{
-            timeGridEvent: CustomEventComponent
+            timeGridEvent: CustomEventComponent,
+            eventModal: CustomModalComponent    
         }}/>
     );
 }

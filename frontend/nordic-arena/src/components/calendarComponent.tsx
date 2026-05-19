@@ -33,5 +33,36 @@ export default function CustomEventComponent ({ calendarEvent }: props) {
                 </div> 
             )}
         </div>
-);
+    );
+}
+
+export function CustomModalComponent({ calendarEvent }: props) {
+    const FormattedStart =
+        calendarEvent.start instanceof Temporal.ZonedDateTime
+        ? calendarEvent.start.toPlainTime().toString()
+        : "";
+
+    const FormattedEnd =
+        calendarEvent.end instanceof Temporal.ZonedDateTime
+        ? calendarEvent.end.toPlainTime().toString()
+        : "";
+
+    return (
+        <div>
+        {calendarEvent.open && (
+            <div className="flex flex-col items-center justify-center gap-[10px] p-2">
+                <h2 className="text-2xl font-bold">{calendarEvent.title}</h2>
+
+                <p className="text-gray-600">
+                    {FormattedStart} - {FormattedEnd}
+                </p>
+
+                <p className="text-gray-600"><span className="text-gray-700 font-bold">{calendarEvent.price}</span> Kr</p>
+
+                <button type="submit" onClick={() => {alert(`Booking ${calendarEvent.title} for ${calendarEvent.price} kr. den ${calendarEvent.date}`)}} className="bg-green-500 rounded p-1 text-white font-semibold text-md md:text-sm transtion duration-300 hover:scale-110 hover:bg-green-600">Book bane</button>
+
+            </div>
+        )}
+        </div>
+    );
 }
