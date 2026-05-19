@@ -1,6 +1,6 @@
 import 'temporal-polyfill/global';
 import Calendar from "../components/calendar";
-import type { CalendarEvent } from "../components/calendar";
+import type { CalendarEvent } from "@schedule-x/calendar";
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/authContext";
