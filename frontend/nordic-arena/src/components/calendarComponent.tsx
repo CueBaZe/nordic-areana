@@ -1,7 +1,10 @@
 import type { CalendarEvent } from "@schedule-x/calendar";
+import { MdClose } from "react-icons/md";
+import { createEventModalPlugin } from '@schedule-x/event-modal'
 
 type props = {
     calendarEvent: CalendarEvent
+    eventModal: ReturnType<typeof createEventModalPlugin>
 }
 
 export default function CustomEventComponent ({ calendarEvent }: props) {
@@ -36,7 +39,7 @@ export default function CustomEventComponent ({ calendarEvent }: props) {
     );
 }
 
-export function CustomModalComponent({ calendarEvent }: props) {
+export function CustomModalComponent({ calendarEvent, eventModal }: props) {
     const FormattedStart =
         calendarEvent.start instanceof Temporal.ZonedDateTime
         ? calendarEvent.start.toPlainTime().toString()
@@ -50,7 +53,12 @@ export function CustomModalComponent({ calendarEvent }: props) {
     return (
         <div>
         {calendarEvent.open && (
-            <div className="flex flex-col items-center justify-center gap-[10px] p-2">
+            <div className="flex flex-col relative items-center justify-center gap-[10px] p-2">
+
+                <div className="absolute top-1 right-2">
+                    <button className="hover:cursor-pointer text-red-400" onClick={() => {eventModal.close();}}><MdClose /></button>
+                </div>
+
                 <h2 className="text-2xl font-bold">{calendarEvent.title}</h2>
 
                 <p className="text-gray-600">

@@ -2,7 +2,7 @@ import { Temporal } from 'temporal-polyfill';
 import { ScheduleXCalendar, useCalendarApp } from "@schedule-x/react";
 import { createEventModalPlugin } from '@schedule-x/event-modal'
 import { createViewDay } from "@schedule-x/calendar"
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import CustomEventComponent, { CustomModalComponent } from './calendarComponent';
 
 export interface Slot {
@@ -29,6 +29,7 @@ export default function Calendar({ initialEvents, onDateChange }: CalendarProps)
 
     const today = Temporal.Now.plainDateISO() //gets todays date
     const twoWeekAhead = today.add({ days: 14  }) //get the date 2 weeks ahead
+    const eventModal = useMemo(() => createEventModalPlugin(), []);
 
 
     const calender = useCalendarApp({
@@ -50,7 +51,7 @@ export default function Calendar({ initialEvents, onDateChange }: CalendarProps)
             start: '01:00',
             end: '23:00',
         },
-        plugins: [createEventModalPlugin()]
+        plugins: [eventModal]
         
     });
 
@@ -85,7 +86,9 @@ export default function Calendar({ initialEvents, onDateChange }: CalendarProps)
         <ScheduleXCalendar calendarApp={calender} 
         customComponents={{
             timeGridEvent: CustomEventComponent,
-            eventModal: CustomModalComponent    
+            eventModal: (props) => (
+                <CustomModalComponent {...props} eventModal={eventModal} />  
+            ) 
         }}/>
     );
 }
