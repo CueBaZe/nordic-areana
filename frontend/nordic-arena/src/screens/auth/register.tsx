@@ -151,7 +151,7 @@ export default function Register() {
                     </div>
                     {loading ? (
                         /* This shows when loading is true */
-                        <button className="bg-[#1E3A8A] text-white text-xl py-2 px-10 rounded-xl opacity-70 cursor-not-allowed">
+                        <button className="bg-[#1E3A8A] text-white text-xl py-2 px-10 rounded-xl opacity-70 cursor-progress">
                             Loading...
                         </button>
                     ) : (
