@@ -7,6 +7,21 @@ type props = {
     eventModal: ReturnType<typeof createEventModalPlugin>
 }
 
+const handleBooking = async (event: CalendarEvent)  => {
+    const FormattedStart =
+        event.start instanceof Temporal.ZonedDateTime
+        ? event.start.toPlainTime().toString()
+        : "";
+
+    const FormattedEnd =
+        event.end instanceof Temporal.ZonedDateTime
+        ? event.end.toPlainTime().toString()
+        : "";
+
+    confirm(`Er du sikker på at du vil book ${event.title} for ${event.price} kr. den ${event.date} kl. ${FormattedStart} til ${FormattedEnd}?`);       
+    alert(`${event.title} booket den ${event.date} kl. ${FormattedStart} til ${FormattedEnd}`);
+}
+
 export default function CustomEventComponent ({ calendarEvent }: props) {
 
     const FormattedStart = calendarEvent.start instanceof Temporal.ZonedDateTime ? calendarEvent.start.toPlainTime().toString() : '';
@@ -67,7 +82,13 @@ export function CustomModalComponent({ calendarEvent, eventModal }: props) {
 
                     <p className="text-gray-600"><span className="text-gray-700 font-bold">{calendarEvent.price}</span> Kr</p>
 
-                    <button type="submit" onClick={() => {alert(`Booking ${calendarEvent.title} for ${calendarEvent.price} kr. den ${calendarEvent.date} kl. ${FormattedStart} til ${FormattedEnd}`)}} className="bg-green-500 rounded p-1 text-white font-semibold text-md md:text-sm transtion duration-300 hover:scale-110 hover:bg-green-600">Book bane</button>
+                    <button 
+                        onClick={() => {
+                            handleBooking(calendarEvent);
+                        }} 
+                        className="bg-green-500 rounded p-1 text-white font-semibold text-md md:text-sm transtion duration-300 hover:scale-110 cursor-pointer hover:bg-green-600">
+                            Book bane
+                    </button>
 
                 </div>
             )}
