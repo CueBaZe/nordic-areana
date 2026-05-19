@@ -67,7 +67,7 @@ export function CustomModalComponent({ calendarEvent, eventModal }: props) {
 
                 <p className="text-gray-600"><span className="text-gray-700 font-bold">{calendarEvent.price}</span> Kr</p>
 
-                <button type="submit" onClick={() => {alert(`Booking ${calendarEvent.title} for ${calendarEvent.price} kr. den ${calendarEvent.date}`)}} className="bg-green-500 rounded p-1 text-white font-semibold text-md md:text-sm transtion duration-300 hover:scale-110 hover:bg-green-600">Book bane</button>
+                <button type="submit" onClick={() => {alert(`Booking ${calendarEvent.title} for ${calendarEvent.price} kr. den ${calendarEvent.date} kl. ${FormattedStart} til ${FormattedEnd}`)}} className="bg-green-500 rounded p-1 text-white font-semibold text-md md:text-sm transtion duration-300 hover:scale-110 hover:bg-green-600">Book bane</button>
 
             </div>
         )}
