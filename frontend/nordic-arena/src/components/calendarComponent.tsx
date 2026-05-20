@@ -1,20 +1,13 @@
     import type { CalendarEvent } from "@schedule-x/calendar";
     import { MdClose } from "react-icons/md";
     import { createEventModalPlugin } from '@schedule-x/event-modal'
+    import { useAuth } from "./authContext";
 
     type props = {
         calendarEvent: CalendarEvent
         eventModal: ReturnType<typeof createEventModalPlugin>
     }
 
-    const handleBooking = async (event: CalendarEvent)  => {
-        const FormattedStart = formatTime(event.start);
-
-        const FormattedEnd = formatTime(event.end);
-
-        confirm(`Er du sikker på at du vil book ${event.title} for ${event.price} kr. den ${event.date} kl. ${FormattedStart} til ${FormattedEnd}?`);       
-        alert(`${event.title} booket den ${event.date} kl. ${FormattedStart} til ${FormattedEnd}`);
-    }
 
     export default function CustomEventComponent ({ calendarEvent }: props) {
 
@@ -50,9 +43,19 @@
     }
 
     export function CustomModalComponent({ calendarEvent, eventModal }: props) {
+        const { user } = useAuth();
+
         const FormattedStart = formatTime(calendarEvent.start);
 
         const FormattedEnd = formatTime(calendarEvent.end);
+
+        function handleBooking (event: CalendarEvent) {
+            if (!user) return alert("Log ind først!");
+
+            confirm(`Er du sikker på at du vil book ${event.title}...`);       
+
+            //make api fetch to make the booking
+        }
 
         return (
             <div>
