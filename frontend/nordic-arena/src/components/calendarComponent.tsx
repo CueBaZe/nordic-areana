@@ -2,6 +2,7 @@
     import { MdClose } from "react-icons/md";
     import { createEventModalPlugin } from '@schedule-x/event-modal'
     import { useAuth } from "./authContext";
+    import { useNavigate } from "react-router-dom";
 
     type props = {
         calendarEvent: CalendarEvent
@@ -28,6 +29,17 @@
                     </div>  
                 )}
 
+                {calendarEvent.open && !calendarEvent.available && (
+                    <div className="bg-red-400 w-full min-w-[100px] h-full rounded-md border border-1 border-[#BFDBFE] cursor-pointer">
+                        <div className="flex flex-col gap-[5px] text-[#0F176B] p-1">
+                            <p className="text-xl font-bold">{calendarEvent.title}</p>
+                            <p className="text-md">
+                                Booket
+                            </p>
+                        </div>
+                    </div>  
+                )}
+
                 {calendarEvent.open == false && (
                     <div className="bg-[#F1F5F9] w-full !min-w-[100px] h-full rounded-md border border-1 border-[#E2E8F0] cursor-not-allowed">
                         <div className="flex flex-col gap-[5px] text-[#94A3B8] p-1">    
@@ -44,23 +56,45 @@
 
     export function CustomModalComponent({ calendarEvent, eventModal }: props) {
         const { user } = useAuth();
+        const navigate = useNavigate()
 
         const FormattedStart = formatTime(calendarEvent.start);
 
         const FormattedEnd = formatTime(calendarEvent.end);
 
-        function handleBooking (event: CalendarEvent) {
+        async function handleBooking (event: CalendarEvent) {
             if (!user) return alert("Log ind først!");
 
             confirm(`Er du sikker på at du vil book ${event.title}...`);       
-            console.log(calendarEvent.id);
 
-            //make api fetch to make the booking
+            const response = await fetch('http://127.0.0.1:8000/api/createBooking', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    'courtId': calendarEvent.id,
+                    'userId': user.id,
+                    'start': FormattedStart,
+                    'end': FormattedEnd,
+                    'date': calendarEvent.date
+                }),
+            });
+
+            const result = await response.json()
+
+            if (!response.ok) {
+                alert(result['message']);
+            }
+
+            alert(result['message']);
+            navigate('/');
         }
 
         return (
             <div>
-                {calendarEvent.open && (
+                {calendarEvent.open && calendarEvent.available &&(
                     <div className="flex flex-col relative items-center justify-center gap-[10px] p-2">
 
                         <div className="absolute top-1 right-2">

@@ -30,7 +30,7 @@ class BookingService {
 
         return DB::table('bookings')
             ->insert([
-                'bane_id' => $id,
+                'bane_id' => $courtId,
                 'user_id' => $userId,
                 'start_time' => $start,
                 'end_time' => $end,

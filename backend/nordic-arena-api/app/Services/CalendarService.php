@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Bane;
 use Carbon\Carbon;
 
+
 class CalendarService {
     public function makeTimeSlots(string $date, string $type) {
         $baner = Bane::where('type', $type)->get();
@@ -48,7 +49,14 @@ class CalendarService {
             $isOpen = $slotStart->greaterThanOrEqualTo($openingTime) && 
                 $slotEnd->lessThanOrEqualTo($closingTime);
 
-            $isAvailable = true; //Makes so it checks bookings if the timeslot is already booked
+            $isAvailable = DB::table('bookings') //checks if there already is a booking on that date and time
+                ->where('bane_id', $baneId)
+                ->where('start_time', $slotStart)
+                ->where('end_time', $slotEnd)
+                ->where('date', $date)
+                ->doesntExist();
+
+                
 
             $slots[] = [
                 'id' => $baneId . '_' . $date . '_' . $slotStart->format('Hi'),
