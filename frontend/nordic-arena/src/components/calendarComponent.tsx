@@ -53,6 +53,7 @@
             if (!user) return alert("Log ind først!");
 
             confirm(`Er du sikker på at du vil book ${event.title}...`);       
+            console.log(calendarEvent.id);
 
             //make api fetch to make the booking
         }

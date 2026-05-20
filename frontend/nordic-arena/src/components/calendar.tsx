@@ -59,14 +59,14 @@ export default function Calendar({ initialEvents, onDateChange }: CalendarProps)
         if (initialEvents.length > 0) {
             const flattenEvents = initialEvents.flatMap(court => { //Goes trough all obejcts in initialEvents and flattens the array
                 
-                return court.slots.map((slot, index) => { //loops trough all the slots in the court
+                return court.slots.map((slot) => { //loops trough all the slots in the court
                     
                     //fomats the time to match the right format
                     const startZonedDateTime = Temporal.ZonedDateTime.from(`${slot.date}T${slot.start}:00[UTC]`); 
                     const endZonedDateTime = Temporal.ZonedDateTime.from(`${slot.date}T${slot.end}:00[UTC]`);
 
                     return {
-                        id: `${court.id}-slot-${index}`,
+                        id: court.id,
                         title: court.title,
                         start: startZonedDateTime,
                         end: endZonedDateTime,
