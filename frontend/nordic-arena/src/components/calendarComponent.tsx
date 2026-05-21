@@ -19,7 +19,7 @@
 
         return (
             <div className="w-full !min-w-[100px] h-full p-[2px]">
-                {calendarEvent.available && calendarEvent.open && !calendarEvent.pastslottime && (
+                {calendarEvent.available && calendarEvent.open && !calendarEvent.pastslottime && ( //Tiden er ledig
                     <div key={calendarEvent.id} data-start={FormattedStart} data-end={FormattedEnd} data-date={calendarEvent.date} className="bg-[#E0F2FE] w-full min-w-[100px] h-full rounded-md border border-1 border-[#BFDBFE] cursor-pointer">
                         <div className="flex flex-col gap-[5px] text-[#0F176B] p-1">
                             <p className="text-xl font-bold">{calendarEvent.title}</p>
@@ -30,7 +30,7 @@
                     </div>  
                 )}
 
-                {calendarEvent.open && !calendarEvent.available && !calendarEvent.pastslottime && (
+                {calendarEvent.open && !calendarEvent.available && !calendarEvent.pastslottime && ( //Tiden er optaget
                     <div className="bg-red-400 w-full min-w-[100px] h-full rounded-md border border-1 border-[#BFDBFE] cursor-pointer">
                         <div className="flex flex-col gap-[5px] text-[#0F176B] p-1">
                             <p className="text-xl font-bold">{calendarEvent.title}</p>
@@ -41,15 +41,15 @@
                     </div>  
                 )}
 
-                {calendarEvent.open && calendarEvent.pastslottime && (
-                    <div className="bg-gray-300 w-full min-w-[100px] h-full rounded-md border border-1 border-gray-400 cursor-pointer">
+                {calendarEvent.open && calendarEvent.pastslottime && ( //Tiden er passeret
+                    <div className="bg-gray-100 w-full min-w-[100px] h-full rounded-md border border-1 border-gray-200 cursor-pointer">
                         <div className="flex flex-col gap-[5px] text-[#0F176B] p-1">
                             <p className="text-xl font-bold">{calendarEvent.title}</p>
                         </div>
                     </div>  
                 )}  
 
-                {calendarEvent.open == false && (
+                {calendarEvent.open == false && ( //Banen er lukket
                     <div className="bg-[#F1F5F9] w-full !min-w-[100px] h-full rounded-md border border-1 border-[#E2E8F0] cursor-not-allowed">
                         <div className="flex flex-col gap-[5px] text-[#94A3B8] p-1">    
                             <p className="text-xl font-bold">{calendarEvent.title}</p>
@@ -131,7 +131,7 @@
                     </div>
                 )}
 
-                {!calendarEvent.available && ( //tiden er allrede booket
+                {!calendarEvent.available && !calendarEvent.pastslottime && ( //tiden er allrede booket
                     <div className="flex flex-col relative items-center justify-center gap-[10px] p-2">
 
                         <div className="absolute top-1 right-2">
