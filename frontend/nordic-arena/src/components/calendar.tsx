@@ -11,6 +11,7 @@ export interface Slot {
     date: string;
     price: string;
     available: boolean;
+    pastslottime: boolean;
     open: boolean;
 }
 
@@ -73,6 +74,7 @@ export default function Calendar({ initialEvents, onDateChange }: CalendarProps)
                         date: slot.date,
                         price: slot.price,
                         available: slot.available,
+                        pastslottime: slot.pastslottime,
                         open: slot.open,
                     };
                 }); 

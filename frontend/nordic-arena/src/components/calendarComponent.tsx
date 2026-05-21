@@ -9,6 +9,7 @@
         eventModal: ReturnType<typeof createEventModalPlugin>
     }
 
+//------------------------------(Event Component)-----------------------------------
 
     export default function CustomEventComponent ({ calendarEvent }: props) {
 
@@ -18,7 +19,7 @@
 
         return (
             <div className="w-full !min-w-[100px] h-full p-[2px]">
-                {calendarEvent.available && calendarEvent.open && (
+                {calendarEvent.available && calendarEvent.open && !calendarEvent.pastslottime && (
                     <div key={calendarEvent.id} data-start={FormattedStart} data-end={FormattedEnd} data-date={calendarEvent.date} className="bg-[#E0F2FE] w-full min-w-[100px] h-full rounded-md border border-1 border-[#BFDBFE] cursor-pointer">
                         <div className="flex flex-col gap-[5px] text-[#0F176B] p-1">
                             <p className="text-xl font-bold">{calendarEvent.title}</p>
@@ -29,7 +30,7 @@
                     </div>  
                 )}
 
-                {calendarEvent.open && !calendarEvent.available && (
+                {calendarEvent.open && !calendarEvent.available && !calendarEvent.pastslottime && (
                     <div className="bg-red-400 w-full min-w-[100px] h-full rounded-md border border-1 border-[#BFDBFE] cursor-pointer">
                         <div className="flex flex-col gap-[5px] text-[#0F176B] p-1">
                             <p className="text-xl font-bold">{calendarEvent.title}</p>
@@ -39,6 +40,14 @@
                         </div>
                     </div>  
                 )}
+
+                {calendarEvent.open && calendarEvent.pastslottime && (
+                    <div className="bg-gray-300 w-full min-w-[100px] h-full rounded-md border border-1 border-gray-400 cursor-pointer">
+                        <div className="flex flex-col gap-[5px] text-[#0F176B] p-1">
+                            <p className="text-xl font-bold">{calendarEvent.title}</p>
+                        </div>
+                    </div>  
+                )}  
 
                 {calendarEvent.open == false && (
                     <div className="bg-[#F1F5F9] w-full !min-w-[100px] h-full rounded-md border border-1 border-[#E2E8F0] cursor-not-allowed">
@@ -54,7 +63,9 @@
         );
     }
 
-    export function CustomModalComponent({ calendarEvent, eventModal }: props) {
+//------------------------------(Modal)-----------------------------------
+
+    export function CustomModalComponent({ calendarEvent, eventModal }: props) { 
         const { user } = useAuth();
         const navigate = useNavigate()
 
@@ -94,7 +105,7 @@
 
         return (
             <div>
-                {calendarEvent.open && calendarEvent.available &&(
+                {calendarEvent.open && calendarEvent.available && !calendarEvent.pastslottime &&( //tiden er ledig og kan bookes
                     <div className="flex flex-col relative items-center justify-center gap-[10px] p-2">
 
                         <div className="absolute top-1 right-2">
@@ -116,6 +127,54 @@
                             className="bg-green-500 rounded p-1 text-white font-semibold text-md md:text-sm transtion duration-300 hover:scale-110 cursor-pointer hover:bg-green-600">
                                 Book bane
                         </button>
+
+                    </div>
+                )}
+
+                {!calendarEvent.available && ( //tiden er allrede booket
+                    <div className="flex flex-col relative items-center justify-center gap-[10px] p-2">
+
+                        <div className="absolute top-1 right-2">
+                            <button className="hover:cursor-pointer text-red-400" onClick={() => {eventModal.close();}}><MdClose /></button>
+                        </div>
+
+                        <h2 className="text-2xl font-bold">{calendarEvent.title}</h2>
+
+                        <p className="text-gray-600">
+                            Tidspunktet er desværre optaget.
+                        </p>
+
+                    </div>
+                )}
+
+                {calendarEvent.open && calendarEvent.pastslottime && ( //Tiden er passeret
+                    <div className="flex flex-col relative items-center justify-center gap-[10px] p-2">
+
+                        <div className="absolute top-1 right-2">
+                            <button className="hover:cursor-pointer text-red-400" onClick={() => {eventModal.close();}}><MdClose /></button>
+                        </div>
+
+                        <h2 className="text-2xl font-bold">{calendarEvent.title}</h2>
+
+                        <p className="text-gray-600">
+                            Det valgte tidsrum er desværre allerede passeret.
+                        </p>
+
+                    </div>
+                )}
+
+                {calendarEvent.open == false && ( //Banen er lukket i dette tidsrum
+                    <div className="flex flex-col relative items-center justify-center gap-[10px] p-2">
+
+                        <div className="absolute top-1 right-2">
+                            <button className="hover:cursor-pointer text-red-400" onClick={() => {eventModal.close();}}><MdClose /></button>
+                        </div>
+
+                        <h2 className="text-2xl font-bold">{calendarEvent.title}</h2>
+
+                        <p className="text-gray-600">
+                            Banen er lukket i dette tidsrum.
+                        </p>
 
                     </div>
                 )}

@@ -42,12 +42,15 @@ class CalendarService {
         $currentSlotTime = Carbon::parse($date)->startOfDay();
 
         while ($currentSlotTime->lt($endOfDay)) {
+
             $slotStart = $currentSlotTime->copy();
             
             $slotEnd = $currentSlotTime->copy()->addHour();
 
             $isOpen = $slotStart->greaterThanOrEqualTo($openingTime) && 
                 $slotEnd->lessThanOrEqualTo($closingTime);
+            
+            $isPastSlotTime = $currentTime->greaterThanOrEqualTo($slotStart);
 
             $isAvailable = DB::table('bookings') //checks if there already is a booking on that date and time
                 ->where('bane_id', $baneId)
@@ -65,6 +68,7 @@ class CalendarService {
                 'date' => $date,
                 'price' => $bane->price,
                 'available' => $isAvailable,
+                'pastslottime' => $isPastSlotTime,
                 'open' => $isOpen,
             ];
 
