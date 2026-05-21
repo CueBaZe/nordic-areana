@@ -61,6 +61,7 @@ export default function CalendarPage() {
                 if (result.ok) {
                     const data = await result.json();
                     setEvents(data);
+                    console.log(data)
                 }
             } catch (err) {
                 console.error('Error fetching Timeslots', err);

@@ -51,8 +51,8 @@ class CalendarService {
 
             $isAvailable = DB::table('bookings') //checks if there already is a booking on that date and time
                 ->where('bane_id', $baneId)
-                ->where('start_time', $slotStart)
-                ->where('end_time', $slotEnd)
+                ->where('start_time', $slotStart->format('H:i:s'))
+                ->where('end_time', $slotEnd->format('H:i:s'))
                 ->where('date', $date)
                 ->doesntExist();
 
