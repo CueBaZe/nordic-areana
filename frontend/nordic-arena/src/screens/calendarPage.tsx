@@ -17,6 +17,7 @@ export default function CalendarPage() {
     const [events, setEvents] = useState<Court[]>([]);
     const [type, setType] = useState<string>('');
     const [sports, setSports] = useState<sports[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const { user } = useAuth();
     const navigate = useNavigate()
@@ -36,6 +37,7 @@ export default function CalendarPage() {
     useEffect(() => {
         const fetchSports = async () => {
             try {
+                setLoading(true);
                 const result = await fetch(`http://127.0.0.1:8000/api/getSports`);
                 if (result.ok) {
                     const data = await result.json();
@@ -44,6 +46,8 @@ export default function CalendarPage() {
                 }
             } catch (err) {
                 console.error('Error fetching Sports', err);
+            } finally {
+                setLoading(false);
             }
         };
         fetchSports();
@@ -75,27 +79,44 @@ export default function CalendarPage() {
 
     return (
         <Mainlayout>
-            <div className='flex flex-col gap-[30px]'>
-                <select 
-                    className='text-[#0F176B] h-[40px] w-full max-w-[200px] border border-1 border-[#DBEAFE] rounded px-2'
-                    value={type} onChange={(e) => {setType(e.target.value)}}
-                >
-                    <option value="" disabled>
-                        Vælg en sport...
-                    </option>
-                    {sports.map(sport => (
-                        <option value={sport.sport} key={sport.sport}>
-                            {sport.sport}
+            {!loading ? (
+                <div className='flex flex-col gap-[30px]'>
+                    <select 
+                        className='text-[#0F176B] h-[40px] w-full max-w-[200px] border border-1 border-[#DBEAFE] rounded px-2'
+                        value={type} onChange={(e) => {setType(e.target.value)}}
+                    >
+                        <option value="" disabled>
+                            Vælg en sport...
                         </option>
-                    ))}
-                </select>
-                {selectedSportData && (
-                    <div className='w-[300px] md:w-[500px]'>
-                        <p className='text-[#0F176B]'>{selectedSportData.desc}</p>
+                        {sports.map(sport => (
+                            <option value={sport.sport} key={sport.sport}>
+                                {sport.sport}
+                            </option>
+                        ))}
+                    </select>
+                    {selectedSportData && (
+                        <div className='w-[300px] md:w-[500px]'>
+                            <p className='text-[#0F176B]'>{selectedSportData.desc}</p>
+                        </div>
+                    )}
+                    <Calendar initialEvents={events} onDateChange={handleDateChange}/>
+                </div>
+            ) : (
+                <div className="flex flex-col items-center justify-center gap-4 bg-[#E0F2FE]/50 border border-[#DBEAFE] rounded-xl p-8 min-h-[300px]">
+
+                    <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#DBEAFE] border-t-[#0F176B]" />
+
+                    <div className='flex flex-col justify-center items-center'>
+                        <p className="text-lg font-medium text-[#0F176B] tracking-wide animate-pulse">
+                            Vent venligst
+                        </p>
+
+                        <p className='text-sm font-medium text-[#0F176B] animate-pulse'>
+                            Mens vi henter bane dataen
+                        </p>
                     </div>
-                )}
-                <Calendar initialEvents={events} onDateChange={handleDateChange}/>
-            </div>
+                </div>
+            )}
         </Mainlayout>
     );
 }
