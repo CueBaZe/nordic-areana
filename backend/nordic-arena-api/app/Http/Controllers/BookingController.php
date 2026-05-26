@@ -45,4 +45,22 @@ class BookingController extends Controller
         }
 
     } 
+
+    public function getBookings(Request $request) {
+        try {
+            $Bookings = $this->bookingService->getBookings($request->userId);
+
+            return response()->json([
+                'success' => true,
+                'today' => $Bookings['today'],
+                'other' =>$Bookings['other'],
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bookings Fejl: ' . $e->getMessage(),
+            ], 400);
+        }
+
+    }
 }
