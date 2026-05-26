@@ -76,13 +76,16 @@
         async function handleBooking (event: CalendarEvent) {
             if (!user) return alert("Log ind først!");
 
-            confirm(`Er du sikker på at du vil book ${event.title}...`);       
+            if (!confirm(`Er du sikker på at du vil book ${event.title}...`)) {
+                return alert("Booking canceled");
+            }  
 
             const response = await fetch('http://127.0.0.1:8000/api/createBooking', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
                 },
                 body: JSON.stringify({
                     'courtId': calendarEvent.id,

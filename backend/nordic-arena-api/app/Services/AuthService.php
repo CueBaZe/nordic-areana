@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
-class AuthService {
+class AuthService { 
     public function attemptLogin(array $credentials) {
-        $user = DB::table('users')->where('email', $credentials['email'])->first(); //gets a user with the inputed email
+        $user = User::where('email', $credentials['email'])->first(); //gets a user with the inputed email
 
         if (!$user || !Hash::check($credentials['password'], $user->password)) { //checks if the passwords match
             return ['success' => false, 'message' => 'Forkert email eller password'];
@@ -26,6 +26,7 @@ class AuthService {
         }
 
         User::create([
+            'token' => $this->generateToken(),
             'name' => $name,
             'email' => $email,
             'phone' => $phone,
@@ -34,5 +35,9 @@ class AuthService {
 
         return ['success' => true, 'message' => 'User oprettet'];
 
+    }
+
+    function generateToken() {
+        return uniqid();
     }
 }

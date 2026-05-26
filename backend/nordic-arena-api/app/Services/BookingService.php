@@ -55,4 +55,31 @@ class BookingService {
                 'date' => $date,
             ]);
     }
+
+    public function getBookings(int $userId) {
+        $currentTime = Carbon::now();
+        $date = $currentTime->toDateString();
+        $time = $currentTime->toTimeString();
+
+        $todaysBookings = DB::table('bookings')
+            ->where('user_id', $userId)
+            ->where('date', $date)
+            ->where('start_time', '>', $currentTime)
+            ->get();
+        
+        $otherBookings = DB::Table('bookings')
+            ->where('user_id', $userId)
+            ->where('date', '!=', $date)
+            ->where('date', '>', $date)
+            ->get();
+
+        if (!$otherBookings && !$todaysBookings) {
+            throw new \Exception('Denne bruger har ingen bookninger');
+        }
+
+        return [
+            'today' => $todaysBookings,
+            'other' => $otherBookings
+        ];
+    }
 }

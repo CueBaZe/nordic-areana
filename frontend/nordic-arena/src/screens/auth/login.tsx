@@ -50,6 +50,7 @@ export default function Login() {
                 if (Data.user) {
                     const safeUser = {
                         id: Data.user.id,
+                        token: Data.user.token,
                         name: Data.user.name,
                         email: Data.user.email,
                         phone: Data.user.phone
