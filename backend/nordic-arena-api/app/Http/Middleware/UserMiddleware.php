@@ -18,7 +18,7 @@ class UserMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $token = $request->bearerToken();
-        $id = $request->userId;
+        $id = $request->route('id');
 
         $user = User::where('id', $id)
             ->where('token', $token)

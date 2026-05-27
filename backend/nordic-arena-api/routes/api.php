@@ -17,6 +17,6 @@ Route::get('/getSports', [CalendarController::class, 'getSports']);
 
 // Protected Routes (Wrapped in your custom middleware)
 Route::middleware(['user.auth'])->group(function () {
-    Route::post('/createBooking', [BookingController::class, 'bookCourt']);
-    Route::get('/getBookings', [BookingController::class, 'getBookings']);
+    Route::post('/createBooking/{id}', [BookingController::class, 'bookCourt']);
+    Route::get('/getBookings/{id}', [BookingController::class, 'getBookings']);
 });

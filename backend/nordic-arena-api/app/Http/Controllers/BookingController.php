@@ -48,7 +48,7 @@ class BookingController extends Controller
 
     public function getBookings(Request $request) {
         try {
-            $Bookings = $this->bookingService->getBookings($request->userId);
+            $Bookings = $this->bookingService->getBookings($request->route('id'));
 
             return response()->json([
                 'success' => true,
