@@ -66,12 +66,24 @@ class BookingService {
             ->where('date', $date)
             ->where('start_time', '>', $currentTime)
             ->get();
+
+        foreach ($todaysBookings as $booking) {
+            $bane = DB::table('baner')->where('id', $booking->bane_id)->first();
+
+            $booking->title = $bane ? $bane->title : 'Ukendt bane';
+        }
         
         $otherBookings = DB::Table('bookings')
             ->where('user_id', $userId)
             ->where('date', '!=', $date)
             ->where('date', '>', $date)
             ->get();
+
+        foreach ($otherBookings as $booking) {
+            $bane = DB::table('baner')->where('id', $booking->bane_id)->first();
+
+            $booking->title = $bane ? $bane->title : 'Ukendt bane';
+        }
 
         if (!$otherBookings && !$todaysBookings) {
             throw new \Exception('Denne bruger har ingen bookninger');
