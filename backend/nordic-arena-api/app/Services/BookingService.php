@@ -56,6 +56,22 @@ class BookingService {
             ]);
     }
 
+    public function cancelBooking(int $userId, int $bookingId) {
+        $court = DB::table('bookings')
+            ->where('id', $bookingId)
+            ->where('user_id', $userId)
+            ->delete();
+        
+        if (!$court) {
+            throw new \Exception('Fejl ved afmelding af bane');
+        }
+
+        return [
+            'success' => true,
+            'message' => 'Bane afmeldt',
+        ];
+    }
+
     public function getBookings(int $userId) {
         $currentTime = Carbon::now();
         $date = $currentTime->toDateString();

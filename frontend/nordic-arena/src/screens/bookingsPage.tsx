@@ -48,7 +48,33 @@ export default function BookingsPage() {
         }
 
         getBookings();
-    }, [user, navigate]);
+    }, [user, navigate, selectedBooking]);
+
+    const handleCancelBooking = async (courtId: string) => {
+        const result = await fetch(`http://127.0.0.1:8000/api/cancelBooking/${user?.id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${user?.token}`
+            },
+            body: JSON.stringify({
+                'courtId': courtId,
+            }),
+        });
+
+        const data = await result.json();
+
+        if (!data.ok) {
+            alert(data['message']);
+            setSelectedBooking(null);   
+        }
+
+        alert(data['message']);
+        setSelectedBooking(null);
+
+
+    }
 
     return (
         <Mainlayout>
@@ -106,7 +132,7 @@ export default function BookingsPage() {
                         </div>
 
                         {/* Button to cancel */}
-                        <button onClick={() => alert(`Afmeld ${selectedBooking.title}`)} className="mt-3 bg-red-400 rounded-lg p-1 text-white text-lg transition duration-300 hover:scale-110 cursor-pointer">Afmeld</button>
+                        <button onClick={() => handleCancelBooking(selectedBooking.id)} className="mt-3 bg-red-400 rounded-lg p-1 text-white text-lg transition duration-300 hover:scale-110 cursor-pointer">Afmeld</button>
                     </div>
                 )}
             </div>

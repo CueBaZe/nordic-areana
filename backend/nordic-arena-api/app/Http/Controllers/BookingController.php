@@ -46,6 +46,25 @@ class BookingController extends Controller
 
     } 
 
+    public function cancelBooking(Request $request) {
+        try {
+            $Booking = $this->bookingService->cancelBooking(
+                $request->route('id'),
+                $request->courtId
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Booking blev afmeldt',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Fejl ved afmelding af booking'
+            ]);
+        }
+    }
+
     public function getBookings(Request $request) {
         try {
             $Bookings = $this->bookingService->getBookings($request->route('id'));
