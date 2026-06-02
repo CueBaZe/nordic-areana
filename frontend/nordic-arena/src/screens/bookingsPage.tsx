@@ -23,6 +23,7 @@ export default function BookingsPage() {
 
     const [ Bookings, setBookings ] = useState<Bookings | null>(null);
     const [ selectedBooking, setSelectedBooking ] = useState<BookingItem | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
     const { user } = useAuth();
     const navigate = useNavigate();
 
@@ -51,29 +52,35 @@ export default function BookingsPage() {
     }, [user, navigate, selectedBooking]);
 
     const handleCancelBooking = async (courtId: string) => {
-        const result = await fetch(`http://127.0.0.1:8000/api/cancelBooking/${user?.id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${user?.token}`
-            },
-            body: JSON.stringify({
-                'courtId': courtId,
-            }),
-        });
+        try {
+            setLoading(true);
+            const result = await fetch(`http://127.0.0.1:8000/api/cancelBooking/${user?.id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${user?.token}`
+                },
+                body: JSON.stringify({
+                    'courtId': courtId,
+                }),
+            });
 
-        const data = await result.json();
+            const data = await result.json();
 
-        if (!data.ok) {
+            if (!data.ok) {
+                alert(data['message']);
+                setSelectedBooking(null);   
+            }
+
             alert(data['message']);
-            setSelectedBooking(null);   
+            setSelectedBooking(null);
+
+        } catch (err) {
+            console.error('Error canceling the booking', err);
+        } finally {
+            setLoading(false);
         }
-
-        alert(data['message']);
-        setSelectedBooking(null);
-
-
     }
 
     return (
@@ -132,7 +139,11 @@ export default function BookingsPage() {
                         </div>
 
                         {/* Button to cancel */}
-                        <button onClick={() => handleCancelBooking(selectedBooking.id)} className="mt-3 bg-red-400 rounded-lg p-1 text-white text-lg transition duration-300 hover:scale-110 cursor-pointer">Afmeld</button>
+                        {loading ? (
+                            <button className="mt-3 bg-red-200 rounded-lg p-1 text-white text-lg transition duration-300 animate-pulse hover:scale-110 cursor-pointer">Loading..</button>
+                        ) : (
+                            <button onClick={() => handleCancelBooking(selectedBooking.id)} className="mt-3 bg-red-400 rounded-lg p-1 text-white text-lg transition duration-300 hover:scale-110 cursor-pointer">Afmeld</button>
+                        )}
                     </div>
                 )}
             </div>
