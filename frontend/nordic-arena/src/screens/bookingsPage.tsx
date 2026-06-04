@@ -69,11 +69,9 @@ export default function BookingsPage() {
             const data = await result.json();
 
             if (!data.ok) {
-                alert(data['message']);
                 setSelectedBooking(null);   
             }
 
-            alert(data['message']);
             setSelectedBooking(null);
 
         } catch (err) {
