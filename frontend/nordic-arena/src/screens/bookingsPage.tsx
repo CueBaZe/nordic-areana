@@ -23,38 +23,52 @@ export default function BookingsPage() {
 
     const [ Bookings, setBookings ] = useState<Bookings | null>(null);
     const [ selectedBooking, setSelectedBooking ] = useState<BookingItem | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loadingCancel, setLoadingCancel] = useState<boolean>(false);
+    const [loadingBookings, setLoadingBookings] = useState<boolean>(false);
     const { user } = useAuth();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!user) {
-            navigate('/forbidden');
-        } 
+    const getBookings = async (userId?: number, token?: string) => { //Function to fetch bookings for a user
+        if (!user?.id) return;
 
-        const getBookings = async () => {
-            const result = await fetch(`http://127.0.0.1:8000/api/getBookings/${user?.id}`, {
+        try {
+            setLoadingBookings(true)
+            const result = await fetch(`http://127.0.0.1:8000/api/getBookings/${userId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${user?.token}`
+                    'Authorization': `Bearer ${token}`
                 },
             });
 
             const data = await result.json();
-
             setBookings(data);
 
+        } catch (err) {
+            console.error('Error fetching bookings:', err)
+        } finally {
+            setLoadingBookings(false)
+        }
+    };
+
+    useEffect(() => {
+
+        if (!user) {
+            navigate('/forbidden');
+        } 
+
+        if (user?.id) {
+            getBookings(user?.id, user?.token);
         }
 
-        getBookings();
-    }, [user, navigate, selectedBooking]);
+    }, [user, navigate]);
 
-    const handleCancelBooking = async (courtId: string) => {
+
+    const handleCancelBooking = async (courtId: string) => { //function to cancel a function for a user
         try {
-            setLoading(true);
-            const result = await fetch(`http://127.0.0.1:8000/api/cancelBooking/${user?.id}`, {
+            setLoadingCancel(true);
+            await fetch(`http://127.0.0.1:8000/api/cancelBooking/${user?.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -66,18 +80,13 @@ export default function BookingsPage() {
                 }),
             });
 
-            const data = await result.json();
-
-            if (!data.ok) {
-                setSelectedBooking(null);   
-            }
-
-            setSelectedBooking(null);
+            setSelectedBooking(null);   
+            getBookings(user?.id, user?.token);
 
         } catch (err) {
             console.error('Error canceling the booking', err);
         } finally {
-            setLoading(false);
+            setLoadingCancel(false);
         }
     }
 
@@ -90,35 +99,65 @@ export default function BookingsPage() {
                     </div>
 
                     <div>
-                        {Bookings?.today && Bookings.today.length > 0 && ( // Todays bookings
-                            <div className="flex flex-col p-4 gap-2">
-                                <h1 className="text-[#0F176B] text-lg">Idag:</h1>
-                                {Bookings.today.map(booking =>
-                                    <div onClick={() => setSelectedBooking(booking)} className="flex flex-row bg-[#BEE3FC] rounded-lg  justify-between p-2 transition duration-300 hover:scale-105 cursor-pointer" key={booking.id}>
-                                        <p className="text-[#0F176B] font-semibold text-sm md:text-md">{booking.title}</p>
-                                        <div className="flex flex-row gap-[10px]">
-                                            <p className="text-[#0F176B] text-xs md:text-sm">{booking.date}</p>
-                                            <p className="text-[#0F176B] text-xs md:text-sm">{booking.start_time} - {booking.end_time}</p>
-                                        </div>
+                        {!loadingBookings ? ( //Checks if is not loading
+                            <>
+                                {Bookings?.today && Bookings.today.length > 0 && (
+                                    <div className="flex flex-col p-4 gap-2">
+                                        <h1 className="text-[#0F176B] text-lg">Idag:</h1>
+                                        {Bookings.today.map((booking) => (
+                                            <div
+                                                key={booking.id}
+                                                onClick={() => setSelectedBooking(booking)}
+                                                className="flex flex-row bg-[#BEE3FC] rounded-lg justify-between p-2 transition duration-300 hover:scale-105 cursor-pointer"
+                                            >
+                                                <p className="text-[#0F176B] font-semibold text-sm md:text-md">
+                                                    {booking.title}
+                                                </p>
+                                                <div className="flex flex-row gap-[10px]">
+                                                    <p className="text-[#0F176B] text-xs md:text-sm">
+                                                        {booking.date}
+                                                    </p>
+                                                    <p className="text-[#0F176B] text-xs md:text-sm">
+                                                        {booking.start_time} - {booking.end_time}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 )}
-                            </div>
-                        )}
 
-                        {Bookings?.other && Bookings.other.length > 0 && ( // Other bookings 
-                            <div className="flex flex-col p-4 gap-2">
-                                <h1 className="text-[#0F176B] text-lg">Andre dage:</h1>
-                                {Bookings.other.map(booking =>
-                                    <div onClick={() => setSelectedBooking(booking)} className="flex flex-row bg-[#BEE3FC] rounded-lg  justify-between p-2 transition duration-300 hover:scale-105 cursor-pointer" key={booking.id}>
-                                        <p className="text-[#0F176B] font-semibold text-sm md:text-md">{booking.title}</p>
-                                        <div className="flex flex-row gap-[10px]">
-                                            <p className="text-[#0F176B] text-xs md:text-sm">{booking.date}</p>
-                                            <p className="text-[#0F176B] text-xs md:text-sm">{booking.start_time} - {booking.end_time}</p>
-                                        </div>
+                                {Bookings?.other && Bookings.other.length > 0 && (
+                                    <div className="flex flex-col p-4 gap-2">
+                                        <h1 className="text-[#0F176B] text-lg">Andre dage:</h1>
+                                        {Bookings.other.map((booking) => (
+                                            <div
+                                                key={booking.id}
+                                                onClick={() => setSelectedBooking(booking)}
+                                                className="flex flex-row bg-[#BEE3FC] rounded-lg justify-between p-2 transition duration-300 hover:scale-105 cursor-pointer"
+                                            >
+                                                <p className="text-[#0F176B] font-semibold text-sm md:text-md">
+                                                    {booking.title}
+                                                </p>
+                                                <div className="flex flex-row gap-[10px]">
+                                                    <p className="text-[#0F176B] text-xs md:text-sm">
+                                                        {booking.date}
+                                                    </p>
+                                                    <p className="text-[#0F176B] text-xs md:text-sm">
+                                                        {booking.start_time} - {booking.end_time}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 )}
+                            </>
+                        ) : ( //if it is loading it shows this
+                            <div className="flex flex-col items-center justify-center mt-2">
+                                <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#DBEAFE] border-t-[#0F176B]" />
+                                <p className="text-lg text-[#0F176B] font-semibold">Henter dine bookings</p>
                             </div>
                         )}
+            
                     </div>
                 </div>
                 {selectedBooking && ( //Modal shown when a booking is clicked
@@ -137,7 +176,7 @@ export default function BookingsPage() {
                         </div>
 
                         {/* Button to cancel */}
-                        {loading ? (
+                        {loadingCancel ? (
                             <button className="mt-3 bg-red-200 rounded-lg p-1 text-white text-lg transition duration-300 animate-pulse hover:scale-110 cursor-pointer">Loading..</button>
                         ) : (
                             <button onClick={() => handleCancelBooking(selectedBooking.id)} className="mt-3 bg-red-400 rounded-lg p-1 text-white text-lg transition duration-300 hover:scale-110 cursor-pointer">Afmeld</button>
