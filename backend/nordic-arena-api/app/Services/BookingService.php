@@ -25,9 +25,10 @@ class BookingService {
 
         $currentTimeString = $currentTime->copy()->toTimeString();
 
-        if ($currentTimeString >= $start) { //checks if the time has pasted
-            throw new \Exception('Denne tid er allrede passeret');
-        }
+        if ($today == $date)
+            if ($currentTimeString >= $start) { //checks if the time has pasted
+                throw new \Exception('Denne tid er allrede passeret');
+            }
 
         $validUser = User::where('id', $userId)->first();
 
