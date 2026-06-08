@@ -62,7 +62,7 @@ export default function BookingsPage() {
             getBookings(user?.id, user?.token);
         }
 
-    }, [user, navigate]);
+    }, [user]);
 
 
     const handleCancelBooking = async (courtId: string) => { //function to cancel a function for a user
@@ -101,30 +101,38 @@ export default function BookingsPage() {
                     <div>
                         {!loadingBookings ? ( //Checks if is not loading
                             <>
-                                {Bookings?.today && Bookings.today.length > 0 && (
-                                    <div className="flex flex-col p-4 gap-2">
-                                        <h1 className="text-[#0F176B] text-lg">Idag:</h1>
-                                        {Bookings.today.map((booking) => (
-                                            <div
-                                                key={booking.id}
-                                                onClick={() => setSelectedBooking(booking)}
-                                                className="flex flex-row bg-[#BEE3FC] rounded-lg justify-between p-2 transition duration-300 hover:scale-105 cursor-pointer"
-                                            >
-                                                <p className="text-[#0F176B] font-semibold text-sm md:text-md">
-                                                    {booking.title}
-                                                </p>
-                                                <div className="flex flex-row gap-[10px]">
-                                                    <p className="text-[#0F176B] text-xs md:text-sm">
-                                                        {booking.date}
+                            {Bookings?.today && Bookings.today.length > 0 || Bookings?.other && Bookings.other.length > 0 ? (
+                                <>
+                                    {Bookings?.today && Bookings.today.length > 0 && (
+                                        <div className="flex flex-col p-4 gap-2">
+                                            <h1 className="text-[#0F176B] text-lg">Idag:</h1>
+                                            {Bookings.today.map((booking) => (
+                                                <div
+                                                    key={booking.id}
+                                                    onClick={() => setSelectedBooking(booking)}
+                                                    className="flex flex-row bg-[#BEE3FC] rounded-lg justify-between p-2 transition duration-300 hover:scale-105 cursor-pointer"
+                                                >
+                                                    <p className="text-[#0F176B] font-semibold text-sm md:text-md">
+                                                        {booking.title}
                                                     </p>
-                                                    <p className="text-[#0F176B] text-xs md:text-sm">
-                                                        {booking.start_time} - {booking.end_time}
-                                                    </p>
+                                                    <div className="flex flex-row gap-[10px]">
+                                                        <p className="text-[#0F176B] text-xs md:text-sm">
+                                                            {booking.date}
+                                                        </p>
+                                                        <p className="text-[#0F176B] text-xs md:text-sm">
+                                                            {booking.start_time} - {booking.end_time}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
+                                            ))}
+                                        </div>
+                                    )}
+                                </>
+                            ) : (
+                                <div className="flex flex-row justify-center items-center mt-12">
+                                    <p className="text-[#0F176B] text-lg font-semibold">Du har ingen bookninger</p>
+                                </div>
+                            )}
 
                                 {Bookings?.other && Bookings.other.length > 0 && (
                                     <div className="flex flex-col p-4 gap-2">
