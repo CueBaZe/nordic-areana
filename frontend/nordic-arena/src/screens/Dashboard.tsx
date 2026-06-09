@@ -8,7 +8,7 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col min-h-screen">
       <Mainlayout>
-        <div className="flex flex-col items-center justify-center mt-8 mb-8 md:m-0 lg:flex-row gap-[50px] lg:gap-[200px]">
+        <div className="flex flex-col items-center justify-center mt-8 mb-8 md:m-0 lg:flex-row gap-[50px] lg:gap-[150px]">
           <Link to="/booking">
             <div className="bg-[#E0F2FE] border border-1 border-[#DBEAFE] rounded w-[400px] md:w-[450px] h-[400px] transition duration-300 hover:scale-105">
               <div className="flex w-full bg-[#1E3A8A] rounded-t h-[40px] items-center justify-center text-center">

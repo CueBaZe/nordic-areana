@@ -1,4 +1,5 @@
-import { FaLock, FaUser } from "react-icons/fa";
+import { FaLock, FaUser, FaUserTie,  } from "react-icons/fa";
+import { IoIosSettings } from "react-icons/io";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 import { useAuth } from "./authContext";
@@ -27,12 +28,21 @@ export default function Navbar() {
             )}
 
             {user && (
-                <div className="flex flex-col relative">
+                <div className="flex flex-row relative gap-10">
+                    <div className="flex flex-col items-center justify-center text-white text-center hover:cursor-pointer transtion-transform duration-300 hover:scale-110">
+                        <IoIosSettings className="text-2xl" />
+                        <span>Settings</span>
+                    </div>
+
                     <div
                         onClick={() => setShowProfileInfo(prev => !prev)}
-                        className="flex flex-col items-center justify-center text-white text-center hover:cursor-pointer"
+                        className="flex flex-col items-center justify-center text-white text-center hover:cursor-pointer transtion-transform duration-300 hover:scale-110"
                     >
-                        <FaUser className="text-2xl" />
+                        {user?.role === 'admin' ? (
+                            <FaUserTie className="text-2xl" />
+                        ) : (
+                            <FaUser className="text-2xl" />
+                        )}
                         <span className="text-md">{user['name']}</span>
                     </div>
 

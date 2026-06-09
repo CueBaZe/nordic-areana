@@ -53,7 +53,8 @@ export default function Login() {
                         token: Data.user.token,
                         name: Data.user.name,
                         email: Data.user.email,
-                        phone: Data.user.phone
+                        phone: Data.user.phone,
+                        role: Data.user.role
                     };
 
                     login(safeUser);
