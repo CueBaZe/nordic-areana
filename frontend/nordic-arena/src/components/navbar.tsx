@@ -29,10 +29,12 @@ export default function Navbar() {
 
             {user && (
                 <div className="flex flex-row relative gap-10">
-                    <div className="flex flex-col items-center justify-center text-white text-center hover:cursor-pointer transtion-transform duration-300 hover:scale-110">
-                        <IoIosSettings className="text-2xl" />
-                        <span>Settings</span>
-                    </div>
+                    <Link to={'/Settings'}>
+                        <div className="flex flex-col items-center justify-center text-white text-center hover:cursor-pointer transtion-transform duration-300 hover:scale-110">
+                            <IoIosSettings className="text-2xl" />
+                            <span>Settings</span>
+                        </div>
+                    </Link>
 
                     <div
                         onClick={() => setShowProfileInfo(prev => !prev)}
