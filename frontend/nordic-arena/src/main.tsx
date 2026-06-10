@@ -8,7 +8,7 @@ import BookingsPage from './screens/bookingsPage.tsx'
 import Settings from './screens/settings.tsx'
 import Login from './screens/auth/login.tsx'
 import Register from './screens/auth/register.tsx'
-import NeedLogin from './screens/needlogin.tsx'
+import NeedLogin from './screens/forbidden.tsx'
 
 import CalendarPage from './screens/calendarPage.tsx'
 
