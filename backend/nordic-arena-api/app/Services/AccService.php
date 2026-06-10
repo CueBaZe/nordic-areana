@@ -18,7 +18,7 @@ class AccService {
 
         $user->update(['name' => $newName]);
 
-        return $user;
+        return;
     }
 
     public function ChangeEmail($id, $newEmail) {
@@ -30,6 +30,19 @@ class AccService {
 
         $user->update(['email' => $newEmail]);
 
-        return $user;
+        return;
+    }
+
+    public function ChangeNumber($id, $newNumber) {
+        $user = User::find($id); 
+
+        if (!$user) {
+            throw new \Exception('Brugeren blev ikke fundet');
+        }
+
+        $user->update(['phone' => $newNumber]);
+
+        return;
+
     }
 }

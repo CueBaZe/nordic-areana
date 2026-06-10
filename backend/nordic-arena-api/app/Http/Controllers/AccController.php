@@ -26,7 +26,7 @@ class AccController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Navn på burger blev ændret',
+                'message' => 'Navn ændret',
             ]);
 
         } catch (\Exception $e) {
@@ -50,7 +50,7 @@ class AccController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Email på bruger blev ændret'
+                'message' => 'Email ændret'
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -62,7 +62,32 @@ class AccController extends Controller
 
     //Change phone number
     public function ChangeNumber(Request $request) {
+
+        $request->validate([
+            'newNumber' => [
+                'required',
+                'regex:/^([0-9\s\-\+\(\)]*)$/',
+                'min:8',
+                'max:20',
+                'unique:users,phone',
+            ],
+        ]);
+
         $id = $request->route('id');
+
+        try {
+            $this->accService->ChangeNumber($id, $request->newNumber);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Number ændret'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 
     //Change Password

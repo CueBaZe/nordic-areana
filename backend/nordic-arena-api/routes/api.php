@@ -20,4 +20,5 @@ Route::middleware(['user.auth'])->group(function () {
     Route::get('/getBookings/{id}', [BookingController::class, 'getBookings']);
     Route::post('/ChangeName/{id}', [AccController::class, 'ChangeName']);
     Route::post('/ChangeEmail/{id}', [AccController::class, 'ChangeEmail']);
+    Route::post('/ChangeNumber/{id}', [AccController::class, 'ChangeNumber']);
 });
