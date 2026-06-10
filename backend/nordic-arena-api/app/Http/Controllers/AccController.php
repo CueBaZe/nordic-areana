@@ -92,6 +92,18 @@ class AccController extends Controller
 
     //Change Password
     public function ChangePassword(Request $request) {
+        $request->validate([
+            'oldPassword' => 'required',
+            'newPassword' => [
+                'required',
+                Password::min(8)
+                    ->letters()      // Must have at least one letter
+                    ->mixedCase()    // Must have both uppercase and lowercase
+                    ->numbers()      // Must have at least one number
+                    ->uncompromised(), // Checks if the password has been leaked in a data breach!
+            ],
+        ]);
+
         $id = $request->route('id');
     }
 }
