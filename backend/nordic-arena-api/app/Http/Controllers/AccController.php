@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\AccService;
+use Illuminate\Validation\Rules\Password;
 
 class AccController extends Controller
 {
@@ -102,8 +103,23 @@ class AccController extends Controller
                     ->numbers()      // Must have at least one number
                     ->uncompromised(), // Checks if the password has been leaked in a data breach!
             ],
+            'repeatPassword' => 'required',
         ]);
 
         $id = $request->route('id');
+
+        try {
+            $this->accService->ChangePassword($id, $request->oldPassword, $request->newPassword, $request->repeatPassword);
+
+            return response()->json([
+            'success' => true,
+            'message' => 'Password ændret',
+        ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 }

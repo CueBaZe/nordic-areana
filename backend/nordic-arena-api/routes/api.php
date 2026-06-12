@@ -21,4 +21,5 @@ Route::middleware(['user.auth'])->group(function () {
     Route::post('/ChangeName/{id}', [AccController::class, 'ChangeName']);
     Route::post('/ChangeEmail/{id}', [AccController::class, 'ChangeEmail']);
     Route::post('/ChangeNumber/{id}', [AccController::class, 'ChangeNumber']);
+    Route::post('/ChangePassword/{id}', [AccController::class, 'ChangePassword']);
 });

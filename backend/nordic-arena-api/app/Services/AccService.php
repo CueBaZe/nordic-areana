@@ -45,4 +45,30 @@ class AccService {
         return;
 
     }
+
+    public function ChangePassword($id, $oldPassword, $newPassword, $repeatPassword) {
+        $user = User::find($id);
+
+        if (!$user) {
+            throw new \Exception('Brugeren blev ikke fundet');
+        }
+
+        if (!Hash::check($oldPassword, $user->password)) { //checks if the old password match the one in the database
+            throw new \Exception('Forkert nuværende password. Prøv igen.');
+        }
+
+        if ($newPassword == $oldPassword) {
+            throw new \Exception('Det nye password må ikke være det samme som det nuværende password');
+        }
+
+        if ($newPassword != $repeatPassword) { //checks if newPassword and repeatPassword matches
+            throw new \Exception('Nyt password og gentag password skal være ens.');
+        }
+
+        $hashedPassword = Hash::make($newPassword);
+        $user->update(['password' => $hashedPassword]);
+
+        return;
+
+    }
 }
