@@ -42,6 +42,9 @@ class AccController extends Controller
     public function ChangeEmail(Request $request) {
         $request->validate([
             'newEmail' => 'required|email|unique:users,email',
+        ], [
+            'newEmail.email' => 'Indtast en gyldig e-mailadresse.',
+            'newEmail.unique' => 'Denne e-mailadresse er allerede i brug.'
         ]);
 
         $id = $request->route('id');
@@ -72,6 +75,11 @@ class AccController extends Controller
                 'max:20',
                 'unique:users,phone',
             ],
+        ], [
+            'newNumber.regex' => 'Telefonnummeret må kun indeholde tal og tegn som mellemrum, +, - og parenteser.',
+            'newNumber.min' => 'Telefonnummeret skal være mindst 8 tegn langt.',
+            'newNumber.max' => 'Telefonnummeret må højst være 20 tegn langt.',
+            'newNumber.unique' => 'Dette telefonnummer er allerede i brug.'
         ]);
 
         $id = $request->route('id');
@@ -104,6 +112,9 @@ class AccController extends Controller
                     ->uncompromised(), // Checks if the password has been leaked in a data breach!
             ],
             'repeatPassword' => 'required',
+        ], [
+            'newPassword.password' => 'Adgangskoden skal være mindst 8 tegn og indeholde store og små bogstaver samt tal.'
+
         ]);
 
         $id = $request->route('id');
