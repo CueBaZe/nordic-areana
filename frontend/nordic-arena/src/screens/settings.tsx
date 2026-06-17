@@ -8,7 +8,16 @@ import { useAuth } from "../components/authContext";
 export default function Settings() {
     
     const [shownPage, setShownPage] = useState<string>('infomation');
+    const [name, setName] = useState<string>();
+    const [email, setEmail] = useState<string>();
+    const [phone, setPhone] = useState<string>();
     const { user } = useAuth();
+
+    const handleChangeInfomation = async () => {
+        if (name) {
+            //run change name endpoint
+        }
+    }
 
     return (
         <Mainlayout>
@@ -42,21 +51,36 @@ export default function Settings() {
                                 <div className="flex flex-col items-center justify-center gap-16 mt-8">
                                     <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* Name input */}
                                         <FaUser size={14} color="#0F176B"/>
-                                        <input className="text-xl" type="text" placeholder={user?.name} />
+                                        <input 
+                                            className="text-xl" 
+                                            type="text" 
+                                            placeholder={user?.name} 
+                                            onChange={(e) => {setName(e.target.value)}}
+                                        />
                                     </div>
 
                                     <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* Email input */}
                                         <MdEmail size={14} color="#0F176B"/>
-                                        <input className="text-xl" type="text" placeholder={user?.email} />
+                                        <input 
+                                            className="text-xl" 
+                                            type="text" 
+                                            placeholder={user?.email} 
+                                            onChange={(e) => {setEmail(e.target.value)}}
+                                        />
                                     </div>
 
                                     <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* Phone input */}
                                         <FaPhone size={14} color="#0F176B"/>
-                                        <input className="text-xl" type="text" placeholder={user?.phone} />
+                                        <input 
+                                            className="text-xl"
+                                            type="text" 
+                                            placeholder={user?.phone} 
+                                            onChange={(e) => {setPhone(e.target.value)}}
+                                        />
                                     </div>
 
                                     <div>
-                                        <button className="bg-green-400 rounded-xl text-white text-xl font-semibold p-2 w-[100px] transtion-transform duration-300 hover:scale-110 cursor-pointer">
+                                        <button onClick={handleChangeInfomation} className="bg-green-400 rounded-xl text-white text-xl font-semibold p-2 w-[100px] transtion-transform duration-300 hover:scale-110 cursor-pointer">
                                             Gem
                                         </button>
                                     </div>
