@@ -40,7 +40,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
     const update = (newFields: Partial<User>) => {
 
         if (user) {
-            const updatedUser = {...user, ...newFields};
+            const updatedUser = {...user, ...newFields}; //unpacks user and newFields and merges them
 
             setUser(updatedUser);
 

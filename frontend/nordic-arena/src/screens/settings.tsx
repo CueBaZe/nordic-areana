@@ -41,6 +41,8 @@ export default function Settings() {
                 }
 
                 update({ name });
+                setName('');
+                
                 
 
             } catch (error) {
@@ -86,6 +88,7 @@ export default function Settings() {
                                             type="text" 
                                             placeholder={user?.name} 
                                             onChange={(e) => {setName(e.target.value)}}
+                                            value={name}
                                         />
                                     </div>
 
@@ -96,6 +99,7 @@ export default function Settings() {
                                             type="text" 
                                             placeholder={user?.email} 
                                             onChange={(e) => {setEmail(e.target.value)}}
+                                            value={email}
                                         />
                                     </div>
 
@@ -106,6 +110,7 @@ export default function Settings() {
                                             type="text" 
                                             placeholder={user?.phone} 
                                             onChange={(e) => {setPhone(e.target.value)}}
+                                            value={phone}
                                         />
                                     </div>
 
