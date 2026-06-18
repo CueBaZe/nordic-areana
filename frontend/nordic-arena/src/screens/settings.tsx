@@ -8,19 +8,19 @@ import { useAuth } from "../components/authContext";
 export default function Settings() {
     
     const [shownPage, setShownPage] = useState<string>('infomation');
-    const [name, setName] = useState<string>(); //name
-    const [nameError, setNameError] = useState<string>();
+    const [name, setName] = useState<string>(''); //name
+    const [nameError, setNameError] = useState<string>('');
 
-    const [email, setEmail] = useState<string>(); //email
-    const [emailError, setEmailError] = useState<string>();
+    const [email, setEmail] = useState<string>(''); //email
+    const [emailError, setEmailError] = useState<string>('');
 
-    const [phone, setPhone] = useState<string>(); //phone
+    const [phone, setPhone] = useState<string>(''); //phone
     const [phoneError, setPhoneError] = useState<string>('');
 
     const { user, update } = useAuth();
 
-    const handleChangeInfomation = () => {
-        const handleName = async () => {
+    const handleChangeInfomation = () => { 
+        const handleChangeName = async () => {
             setNameError('');
             const response = await fetch(`http://127.0.0.1:8000/api/changeName/${user?.id}`, {
                 method: 'POST',
@@ -46,7 +46,34 @@ export default function Settings() {
             return;
         }
 
-        if (name) { handleName(); }
+        const handleChangeEmail = async () => {
+            setEmailError('');
+            const response = await fetch(`http://127.0.0.1:8000/api/changeEmail/${user?.id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${user?.token}`
+                },
+                body: JSON.stringify({
+                    'newEmail': email,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setEmailError(data.errors.newEmail[0]);
+                return;
+            }
+
+            update({ email });
+            setEmail('');
+            return;
+        }
+
+        if (name) { handleChangeName(); }
+        if (email) {handleChangeEmail(); }
     }
 
     return (
@@ -98,16 +125,25 @@ export default function Settings() {
                                         )}
                                     </div>
 
-                                    <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* Email input */}
-                                        <MdEmail size={14} color="#0F176B"/>
-                                        <input 
-                                            className="text-xl" 
-                                            type="text" 
-                                            placeholder={user?.email} 
-                                            onChange={(e) => {setEmail(e.target.value)}}
-                                            value={email}
-                                        />
-                                    </div>
+                                    <div>
+                                        <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* Email input */}
+                                            <MdEmail size={14} color="#0F176B"/>
+                                            <input 
+                                                className="text-xl" 
+                                                type="text" 
+                                                placeholder={user?.email} 
+                                                onChange={(e) => {setEmail(e.target.value)}}
+                                                value={email}
+                                            />
+                                        </div>
+
+                                        {emailError && (
+                                            <div>
+                                                <p className="text-xs text-red-600 font-semibold">{emailError}</p>
+                                            </div>
+                                        )}    
+                                    </div>        
+                                    
 
                                     <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* Phone input */}
                                         <FaPhone size={14} color="#0F176B"/>
