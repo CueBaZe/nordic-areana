@@ -14,6 +14,7 @@ interface AuthContextType {
     user: User | null;
     login: (userData: User) => void;
     logout: () => void;
+    update: (newFields: Partial<User>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -36,8 +37,20 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         sessionStorage.removeItem('user_session');
     }
 
+    const update = (newFields: Partial<User>) => {
+
+        if (user) {
+            const updatedUser = {...user, ...newFields};
+
+            setUser(updatedUser);
+
+            sessionStorage.setItem('user_session', JSON.stringify(updatedUser));
+        }
+
+    }
+
     return (
-        <AuthContext.Provider value={{user, login, logout}}>
+        <AuthContext.Provider value={{user, login, logout, update}}>
             {children}
         </AuthContext.Provider>
     )

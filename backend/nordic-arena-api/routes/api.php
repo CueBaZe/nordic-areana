@@ -18,8 +18,8 @@ Route::middleware(['user.auth'])->group(function () {
     Route::post('/createBooking/{id}', [BookingController::class, 'bookCourt']);
     Route::post('/cancelBooking/{id}', [BookingController::class, 'cancelBooking']);
     Route::get('/getBookings/{id}', [BookingController::class, 'getBookings']);
-    Route::post('/ChangeName/{id}', [AccController::class, 'ChangeName']);
-    Route::post('/ChangeEmail/{id}', [AccController::class, 'ChangeEmail']);
-    Route::post('/ChangeNumber/{id}', [AccController::class, 'ChangeNumber']);
-    Route::post('/ChangePassword/{id}', [AccController::class, 'ChangePassword']);
+    Route::post('/changeName/{id}', [AccController::class, 'ChangeName']);
+    Route::post('/changeEmail/{id}', [AccController::class, 'ChangeEmail']);
+    Route::post('/changeNumber/{id}', [AccController::class, 'ChangeNumber']);
+    Route::post('/changePassword/{id}', [AccController::class, 'ChangePassword']);
 });

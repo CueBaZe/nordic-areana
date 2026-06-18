@@ -8,14 +8,44 @@ import { useAuth } from "../components/authContext";
 export default function Settings() {
     
     const [shownPage, setShownPage] = useState<string>('infomation');
-    const [name, setName] = useState<string>();
-    const [email, setEmail] = useState<string>();
-    const [phone, setPhone] = useState<string>();
-    const { user } = useAuth();
+    const [name, setName] = useState<string>(); //name
+    const [nameError, setNameError] = useState<string>();
+
+    const [email, setEmail] = useState<string>(); //email
+    const [emailError, setEmailError] = useState<string>();
+
+    const [phone, setPhone] = useState<string>(); //phone
+    const [phoneError, setPhoneError] = useState<string>('');
+
+    const { user, update } = useAuth();
 
     const handleChangeInfomation = async () => {
         if (name) {
-            //run change name endpoint
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/api/changeName/${user?.id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${user?.token}`
+                    },
+                    body: JSON.stringify({
+                        'newName': name,
+                    }),
+                });
+
+                const data = await response.json()
+
+                if (!response.ok) {
+                    setNameError(data['message']);
+                }
+
+                update({ name });
+                
+
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 
