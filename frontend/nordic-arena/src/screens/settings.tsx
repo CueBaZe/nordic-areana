@@ -81,7 +81,7 @@ export default function Settings() {
                 return;
             }
 
-            if (phone) {
+            if (phone) {}
                 setPhoneError('');
                 const response = await fetch(`http://127.0.0.1:8000/api/changeNumber/${user?.id}`, {
                     method: 'POST',
