@@ -21,6 +21,7 @@ export default function Settings() {
 
     const handleChangeInfomation = () => {
         const handleName = async () => {
+            setNameError('');
             const response = await fetch(`http://127.0.0.1:8000/api/changeName/${user?.id}`, {
                 method: 'POST',
                 headers: {
@@ -36,7 +37,7 @@ export default function Settings() {
             const data = await response.json()
 
             if (!response.ok) {
-                setNameError(data['message']);
+                setNameError(data.errors.newName[0]);
                 return;
             }
 
@@ -78,15 +79,23 @@ export default function Settings() {
                                 <h1 className="text-xl font-semibold self-start mx-3 mt-4">Ændre infomation:</h1>
 
                                 <div className="flex flex-col items-center justify-center gap-16 mt-8">
-                                    <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* Name input */}
-                                        <FaUser size={14} color="#0F176B"/>
-                                        <input 
-                                            className="text-xl" 
-                                            type="text" 
-                                            placeholder={user?.name} 
-                                            onChange={(e) => {setName(e.target.value)}}
-                                            value={name}
-                                        />
+                                    <div>
+                                        <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* Name input */}
+                                            <FaUser size={14} color="#0F176B"/>
+                                            <input 
+                                                className="text-xl" 
+                                                type="text" 
+                                                placeholder={user?.name} 
+                                                onChange={(e) => {setName(e.target.value)}}
+                                                value={name}
+                                            />
+                                        </div>
+
+                                        {nameError && (
+                                            <div>
+                                                <p className="text-xs text-red-600 font-semibold">{nameError}</p>
+                                            </div>
+                                        )}
                                     </div>
 
                                     <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* Email input */}
