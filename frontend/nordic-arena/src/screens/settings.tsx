@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Mainlayout from "../mainlayout";
-import { FaUser, FaPhone } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
+import { FaUser, FaPhone, FaLock, FaLockOpen } from "react-icons/fa";
+import { MdEmail, MdLockReset } from "react-icons/md";
 import { GrShieldSecurity } from "react-icons/gr";
 import { useAuth } from "../components/authContext";
 
@@ -223,14 +223,17 @@ export default function Settings() {
 
                                 <div className="flex flex-col items-center justify-center gap-16 mt-8 "> 
                                     <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* present password */}
+                                        <FaLockOpen size={14} color="#0F176B" />
                                         <input className="text-lg" type="password" placeholder="Nuværende password"/>
                                     </div>
 
                                     <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* new password */}
+                                        <FaLock size={14} color="#0F176B" />
                                         <input className="text-lg" type="password" placeholder="Nyt password"/>
                                     </div>
 
                                     <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* repeat password */}
+                                        <MdLockReset size={14} color="#0F176B" />
                                         <input className="text-lg" type="password" placeholder="Gentag password"/>
                                     </div>
 
