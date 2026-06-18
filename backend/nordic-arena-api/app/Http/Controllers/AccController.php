@@ -17,7 +17,10 @@ class AccController extends Controller
     //Change name
     public function ChangeName(Request $request) {
         $request->validate([
-            'newName' => 'required'
+            'newName' => 'required|min:3|max:15'
+        ], [
+            'newName.min' => 'Navnet skal være mindst 3 bogstaver',
+            'newName.max' => 'Navnet må maks være 15 bogstaver',
         ]);
 
         $id = $request->route('id');
