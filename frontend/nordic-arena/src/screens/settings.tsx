@@ -19,61 +19,99 @@ export default function Settings() {
 
     const { user, update } = useAuth();
 
-    const handleChangeInfomation = () => { 
-        const handleChangeName = async () => {
-            setNameError('');
-            const response = await fetch(`http://127.0.0.1:8000/api/changeName/${user?.id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${user?.token}`
-                },
-                body: JSON.stringify({
-                    'newName': name,
-                }),
-            });
+    const [ loading, setLoading ] = useState<boolean>(false);
 
-            const data = await response.json()
+    const handleChangeInfomation = async () => { 
+        setNameError('');
+        setEmailError('');
+        setPhoneError('');
 
-            if (!response.ok) {
-                setNameError(data.errors.newName[0]);
+
+        try {
+            setLoading(true);
+
+            if (name) {
+                const response = await fetch(`http://127.0.0.1:8000/api/changeName/${user?.id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${user?.token}`
+                    },
+                    body: JSON.stringify({
+                        'newName': name,
+                    }),
+                });
+
+                const data = await response.json()
+
+                if (!response.ok) {
+                    setNameError(data.errors.newName[0]);
+                    return;
+                }
+
+                update({ name });
+                setName('');
                 return;
             }
 
-            update({ name });
-            setName('');
-            return;
-        }
+            if (email) {
+                setEmailError('');
+                const response = await fetch(`http://127.0.0.1:8000/api/changeEmail/${user?.id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${user?.token}`
+                    },
+                    body: JSON.stringify({
+                        'newEmail': email,
+                    }),
+                });
 
-        const handleChangeEmail = async () => {
-            setEmailError('');
-            const response = await fetch(`http://127.0.0.1:8000/api/changeEmail/${user?.id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${user?.token}`
-                },
-                body: JSON.stringify({
-                    'newEmail': email,
-                }),
-            });
+                const data = await response.json();
 
-            const data = await response.json();
+                if (!response.ok) {
+                    setEmailError(data.errors.newEmail[0]);
+                    return;
+                }
 
-            if (!response.ok) {
-                setEmailError(data.errors.newEmail[0]);
+                update({ email });
+                setEmail('');
                 return;
             }
 
-            update({ email });
-            setEmail('');
-            return;
-        }
+            if (phone) {
+                setPhoneError('');
+                const response = await fetch(`http://127.0.0.1:8000/api/changeNumber/${user?.id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${user?.token}`
+                    },
+                    body: JSON.stringify({
+                        'newNumber': phone,
+                    }),
+                });
 
-        if (name) { handleChangeName(); }
-        if (email) {handleChangeEmail(); }
+                const data = await response.json();
+
+                if (!response.ok) {
+                    setPhoneError(data.errors.newNumber[0]);
+                    return;
+                }
+
+                update({ phone });
+                setPhone('');
+                return;
+            }
+
+        } catch (errors) {
+            console.log(errors);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -144,22 +182,36 @@ export default function Settings() {
                                         )}    
                                     </div>        
                                     
+                                    <div>
+                                        <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* Phone input */}
+                                            <FaPhone size={14} color="#0F176B"/>
+                                            <input 
+                                                className="text-xl"
+                                                type="text" 
+                                                placeholder={user?.phone} 
+                                                onChange={(e) => {setPhone(e.target.value)}}
+                                                value={phone}
+                                            />
+                                        </div>
 
-                                    <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* Phone input */}
-                                        <FaPhone size={14} color="#0F176B"/>
-                                        <input 
-                                            className="text-xl"
-                                            type="text" 
-                                            placeholder={user?.phone} 
-                                            onChange={(e) => {setPhone(e.target.value)}}
-                                            value={phone}
-                                        />
+                                        {phoneError && (
+                                            <div>
+                                                <p className="text-xs text-red-600 font-semibold">{phoneError}</p>
+                                            </div>
+                                        )}
                                     </div>
 
                                     <div>
-                                        <button onClick={handleChangeInfomation} className="bg-green-400 rounded-xl text-white text-xl font-semibold p-2 w-[100px] transtion-transform duration-300 hover:scale-110 cursor-pointer">
-                                            Gem
-                                        </button>
+                                        {!loading ? (
+                                            <button onClick={handleChangeInfomation} className="bg-green-400 rounded-xl text-white text-xl font-semibold p-2 w-[100px] transtion-transform duration-300 hover:scale-110 cursor-pointer">
+                                                Gem
+                                            </button>
+                                        ) : (
+                                            <button className="bg-gray-400 rounded-xl text-white text-xl font-semibold w-[100px] cursor-disabled p-2">
+                                                Loading...
+                                            </button>
+                                        )}
+                                        
                                     </div>
                                 </div>
                             </>
