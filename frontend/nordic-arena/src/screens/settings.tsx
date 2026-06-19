@@ -8,6 +8,8 @@ import { useAuth } from "../components/authContext";
 export default function Settings() {
     
     const [shownPage, setShownPage] = useState<string>('infomation');
+
+    //---------------------------(To Infomation change)-------------------------------------------------------
     const [name, setName] = useState<string>(''); //name
     const [nameError, setNameError] = useState<string>('');
 
@@ -119,7 +121,7 @@ export default function Settings() {
             await Promise.all(promises); //runs throug all promises
 
             if (pendingNameError && pendingNameError.length > 0) { setNameError(pendingNameError); }
-            if (pendingEmailError && pendingEmailError.length > 0) {setEmailError(pendingEmailError)};
+            if (pendingEmailError && pendingEmailError.length > 0) {setEmailError(pendingEmailError);}
             if (pendingPhoneError && pendingPhoneError.length > 0) {setPhoneError(pendingPhoneError);}
 
             if (nameSuccess) { updateFields.name = name; setName('') }
@@ -137,6 +139,8 @@ export default function Settings() {
             setLoading(false);
         }
     }
+
+    //---------------------------(To Password change)-------------------------------------------------------
 
     return (
         <Mainlayout>
@@ -163,6 +167,7 @@ export default function Settings() {
                     <div className="text-center bg-[#1E3A8A] rounded-t-lg p-2"> {/* Header */}
                         <h1 className="text-2xl text-white font-semibold">Settings ({shownPage})</h1>
                     </div>
+{/*---------------------------------------(Infomation page)-------------------------------------------- */}
                         {shownPage === 'infomation' && (
                             <>
                                 <h1 className="text-xl font-semibold self-start mx-3 mt-4">Ændre infomation:</h1>
@@ -241,6 +246,7 @@ export default function Settings() {
                             </>
                         )}
 
+{/*---------------------------------------(Password page)-------------------------------------------- */}
                         {shownPage === 'password' && (
                             <>
                                 <h1 className="text-xl font-semibold self-start mx-3 mt-4">Ændre password:</h1>
