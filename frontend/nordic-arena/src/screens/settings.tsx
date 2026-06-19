@@ -26,86 +26,110 @@ export default function Settings() {
         setEmailError('');
         setPhoneError('');
 
+        let pendingNameError = '';
+        let pendingEmailError = '';
+        let pendingPhoneError = '';
+
+        let nameSuccess = false;
+        let emailSuccess = false;
+        let phoneSuccess = false;
 
         try {
             setLoading(true);
 
+            const promises = [];
+
             if (name) {
-                const response = await fetch(`http://127.0.0.1:8000/api/changeName/${user?.id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${user?.token}`
-                    },
-                    body: JSON.stringify({
-                        'newName': name,
-                    }),
-                });
+                promises.push ( //adds this section to promises
+                    fetch(`http://127.0.0.1:8000/api/changeName/${user?.id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${user?.token}`
+                        },
+                        body: JSON.stringify({
+                            'newName': name,
+                        }),
+                    })
+                    .then (async (response) => {
+                        const data = await response.json()
 
-                const data = await response.json()
-
-                if (!response.ok) {
-                    setNameError(data.errors.newName[0]);
-                    return;
-                }
-
-                update({ name });
-                setName('');
-                return;
+                        if (!response.ok) {
+                            pendingNameError = data.errors.newName[0];
+                        } else {
+                            nameSuccess = true;
+                        }
+                    })
+                );
             }
 
             if (email) {
-                setEmailError('');
-                const response = await fetch(`http://127.0.0.1:8000/api/changeEmail/${user?.id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${user?.token}`
-                    },
-                    body: JSON.stringify({
-                        'newEmail': email,
-                    }),
-                });
+                promises.push( //adds this section to promises
+                    fetch(`http://127.0.0.1:8000/api/changeEmail/${user?.id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${user?.token}`
+                        },
+                        body: JSON.stringify({
+                            'newEmail': email,
+                        }),
+                    })
+                    .then(async (response) => {
+                        const data = await response.json();
 
-                const data = await response.json();
-
-                if (!response.ok) {
-                    setEmailError(data.errors.newEmail[0]);
-                    return;
-                }
-
-                update({ email });
-                setEmail('');
-                return;
+                        if (!response.ok) {
+                            pendingEmailError = data.errors.newEmail[0];
+                        } else {
+                            emailSuccess = true;
+                        }
+                    })
+                );
             }
 
-            if (phone) {
-                setPhoneError('');
-                const response = await fetch(`http://127.0.0.1:8000/api/changeNumber/${user?.id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${user?.token}`
-                    },
-                    body: JSON.stringify({
-                        'newNumber': phone,
-                    }),
-                });
+            if (phone) { 
+                promises.push( //adds this section to promises
+                    fetch(`http://127.0.0.1:8000/api/changeNumber/${user?.id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${user?.token}`
+                        },
+                        body: JSON.stringify({
+                            'newNumber': phone,
+                        }),
+                    })
+                    .then(async (response) => {
+                        const data = await response.json();
 
-                const data = await response.json();
-
-                if (!response.ok) {
-                    setPhoneError(data.errors.newNumber[0]);
-                    return;
-                }
-
-                update({ phone });
-                setPhone('');
-                return;
+                        if (!response.ok) {
+                            pendingPhoneError = data.errors.newNumber[0];
+                        } else {
+                            phoneSuccess = true;
+                        }
+                    })
+                );
             }
+
+            const updateFields: {name?: string, email?: string, phone?: string} = {};
+
+            await Promise.all(promises); //runs throug all promises
+
+            if (pendingNameError && pendingNameError.length > 0) { setNameError(pendingNameError); }
+            if (pendingEmailError && pendingEmailError.length > 0) {setEmailError(pendingEmailError)};
+            if (pendingPhoneError && pendingPhoneError.length > 0) {setPhoneError(pendingPhoneError);}
+
+            if (nameSuccess) { updateFields.name = name; setName('') }
+            if (emailSuccess) { updateFields.email = email; setEmail('') }
+            if (phoneSuccess) { updateFields.phone = phone; setPhone('') }
+
+            if (Object.keys(updateFields).length > 0) {
+                update(updateFields);
+            }
+            
 
         } catch (errors) {
             console.log(errors);
@@ -143,7 +167,7 @@ export default function Settings() {
                             <>
                                 <h1 className="text-xl font-semibold self-start mx-3 mt-4">Ændre infomation:</h1>
 
-                                <div className="flex flex-col items-center justify-center gap-16 mt-8">
+                                <div className="flex flex-col items-center justify-center gap-14 mt-8">
                                     <div>
                                         <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* Name input */}
                                             <FaUser size={14} color="#0F176B"/>
