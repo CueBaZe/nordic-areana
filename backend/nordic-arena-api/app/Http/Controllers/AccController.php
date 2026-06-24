@@ -112,12 +112,10 @@ class AccController extends Controller
                     ->letters()      // Must have at least one letter
                     ->mixedCase()    // Must have both uppercase and lowercase
                     ->numbers()      // Must have at least one number
-                    ->uncompromised(), // Checks if the password has been leaked in a data breach!
             ],
             'repeatPassword' => 'required',
         ], [
-            'newPassword.password' => 'Adgangskoden skal være mindst 8 tegn og indeholde store og små bogstaver samt tal.'
-
+            'newPassword' => 'Adgangskoden skal være mindst 8 tegn og indeholde store og små bogstaver samt tal.'
         ]);
 
         $id = $request->route('id');
@@ -133,7 +131,7 @@ class AccController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),
-            ]);
+            ], 400);
         }
     }
 }

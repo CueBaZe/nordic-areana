@@ -8,6 +8,8 @@ import { useAuth } from "../components/authContext";
 export default function Settings() {
     
     const [shownPage, setShownPage] = useState<string>('infomation');
+    const [ loading, setLoading ] = useState<boolean>(false);
+    const { user, update } = useAuth();
 
     //---------------------------(To Infomation change)-------------------------------------------------------
     const [name, setName] = useState<string>(''); //name
@@ -19,9 +21,6 @@ export default function Settings() {
     const [phone, setPhone] = useState<string>(''); //phone
     const [phoneError, setPhoneError] = useState<string>('');
 
-    const { user, update } = useAuth();
-
-    const [ loading, setLoading ] = useState<boolean>(false);
 
     const handleChangeInfomation = async () => { 
         setNameError('');
@@ -142,6 +141,65 @@ export default function Settings() {
 
     //---------------------------(To Password change)-------------------------------------------------------
 
+    const [password, setPassword] = useState<string>('');
+
+
+    const [newPassword, setNewPassword] = useState<string>('');
+
+    const [repeatPassword, setRepeatPassword] = useState<string>('');
+
+    const [generalError, setGeneralError] = useState<string>('')
+
+    const handleChangePassword = async () => {
+        setGeneralError('');
+        setLoading(true);
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/changePassword/${user?.id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${user?.token}`
+                },
+                body: JSON.stringify({
+                    'oldPassword': password,
+                    'newPassword': newPassword,
+                    'repeatPassword': repeatPassword
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                let errorMessage = 'Noget gik galt';
+
+                if (data.errors) {
+                    if (Array.isArray(data.errors)) {
+                        errorMessage = data.errors[0];
+                    } else if (typeof data.errors === 'object') {
+                        const firstFieldsErrors = Object.values(data.errors)[0];
+                        errorMessage = Array.isArray(firstFieldsErrors) ? firstFieldsErrors[0] : firstFieldsErrors;
+                    }
+                } else if (data.message) {
+                    errorMessage = data.message;
+                }
+
+                setGeneralError(errorMessage);
+            } else {
+                setPassword('');
+                setNewPassword('');
+                setRepeatPassword('');
+                //set success message 
+            }
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    //---------------------------(Page)-------------------------------------------------------
     return (
         <Mainlayout>
             <div className="flex flex-col gap-[25px] justify-center items-center text-center text-[#0F176B]">
@@ -251,26 +309,49 @@ export default function Settings() {
                             <>
                                 <h1 className="text-xl font-semibold self-start mx-3 mt-4">Ændre password:</h1>
 
-                                <div className="flex flex-col items-center justify-center gap-16 mt-8 "> 
+                                <div className="flex flex-col items-center justify-center gap-12 mt-8 "> 
                                     <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* present password */}
                                         <FaLockOpen size={14} color="#0F176B" />
-                                        <input className="text-lg" type="password" placeholder="Nuværende password"/>
+                                        <input className="text-lg" 
+                                            type="password" 
+                                            placeholder="Nuværende password"
+                                            value={password}
+                                            onChange={(e) => {setPassword(e.target.value)}}
+                                        />
                                     </div>
 
                                     <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* new password */}
                                         <FaLock size={14} color="#0F176B" />
-                                        <input className="text-lg" type="password" placeholder="Nyt password"/>
+                                        <input className="text-lg" 
+                                            type="password" 
+                                            placeholder="Nyt password"
+                                            value={newPassword}
+                                            onChange={(e) => {setNewPassword(e.target.value)}}
+                                        />
                                     </div>
 
                                     <div className="flex flex-row gap-2 justify-center items-center border border-1 border-[#C5D3E5] rounded-lg p-1"> {/* repeat password */}
                                         <MdLockReset size={14} color="#0F176B" />
-                                        <input className="text-lg" type="password" placeholder="Gentag password"/>
+                                        <input className="text-lg" 
+                                            type="password" 
+                                            placeholder="Gentag password"
+                                            value={repeatPassword}
+                                            onChange={(e) => {setRepeatPassword(e.target.value)}}
+                                        />
                                     </div>
 
-                                    <div>
-                                        <button className="bg-green-400 rounded-xl text-white text-xl font-semibold p-2 w-[100px] transtion-transform duration-300 hover:scale-110 cursor-pointer">
-                                            Gem
-                                        </button>
+                                    <div className="flex flex-col gap-4">
+                                        {generalError && (
+                                            <div>
+                                                <h1 className="text-red-500 font-semibold text-sm">{generalError}</h1>
+                                            </div>
+                                        )}
+
+                                        <div>
+                                            <button onClick={handleChangePassword} className="bg-green-400 rounded-xl text-white text-xl font-semibold p-2 w-[100px] transtion-transform duration-300 hover:scale-110 cursor-pointer">
+                                                Gem
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </>
