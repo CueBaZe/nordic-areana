@@ -5,6 +5,7 @@ import { AuthProvider } from './components/authContext.tsx'
 
 import Dashboard from './screens/Dashboard.tsx'
 import BookingsPage from './screens/bookingsPage.tsx'
+import AdminPage from './screens/adminPage.tsx'
 import Settings from './screens/settings.tsx'
 import Login from './screens/auth/login.tsx'
 import Register from './screens/auth/register.tsx'
@@ -25,7 +26,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path='/register' element={<Register />}/>
         <Route path='/forbidden' element={<NeedLogin />}/>
         <Route path='/booking' element={<CalendarPage />}/>
-
+        <Route path='/admin' element={<AdminPage />}/>
       </Routes>
     </AuthProvider>
   </BrowserRouter>
