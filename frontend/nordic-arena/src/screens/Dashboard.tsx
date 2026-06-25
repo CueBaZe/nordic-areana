@@ -1,6 +1,7 @@
 import Mainlayout from "../mainlayout";
 import sportImage from "../assets/sport.jpg";
 import baneImage from "../assets/bane.jpg";
+import tandhjul from "../assets/tandhjul.jpg"
 import { Link } from "react-router-dom";
 import { useAuth } from "../components/authContext";
 
@@ -42,7 +43,7 @@ export default function Dashboard() {
                 </div>
                 <div className="flex items-center justify-center mt-4">
                   <img 
-                    src={sportImage} 
+                    src={tandhjul} 
                     loading="lazy"
                     className="w-[350px] h-[250px] object-cover rounded border border-2 border-[#DBEAFE]"
                   />
