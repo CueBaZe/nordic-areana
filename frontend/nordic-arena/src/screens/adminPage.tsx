@@ -13,6 +13,10 @@ export default function AdminPage() {
         if (!user) {
             navigate('/forbidden');
         }
+
+        if (user?.role !== 'admin') { //checks if user is an admin
+            navigate('/forbidden');
+        }
     }, [user, navigate]);   
     
     return (
