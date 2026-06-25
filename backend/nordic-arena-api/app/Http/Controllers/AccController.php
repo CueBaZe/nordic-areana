@@ -19,8 +19,8 @@ class AccController extends Controller
         $request->validate([
             'newName' => 'required|min:3|max:15'
         ], [
-            'newName.min' => 'Navnet skal være mindst 3 bogstaver',
-            'newName.max' => 'Navnet må maks være 15 bogstaver',
+            'newName.min' => 'Navnet skal være mindst :min bogstaver',
+            'newName.max' => 'Navnet må maks være :max bogstaver',
         ]);
 
         $id = $request->route('id');
@@ -80,8 +80,8 @@ class AccController extends Controller
             ],
         ], [
             'newNumber.regex' => 'Telefonnummeret må kun indeholde tal og tegn som mellemrum, +, - og parenteser.',
-            'newNumber.min' => 'Telefonnummeret skal være mindst 8 tegn langt.',
-            'newNumber.max' => 'Telefonnummeret må højst være 20 tegn langt.',
+            'newNumber.min' => 'Telefonnummeret skal være mindst :min tegn langt.',
+            'newNumber.max' => 'Telefonnummeret må højst være :max tegn langt.',
             'newNumber.unique' => 'Dette telefonnummer er allerede i brug.'
         ]);
 
@@ -115,7 +115,10 @@ class AccController extends Controller
             ],
             'repeatPassword' => 'required',
         ], [
-            'newPassword' => 'Adgangskoden skal være mindst 8 tegn og indeholde store og små bogstaver samt tal.'
+            'newPassword' => 'Adgangskoden skal være mindst :min tegn og indeholde store og små bogstaver samt tal.',
+            'oldPassword' => 'Du skal udfylde din nuværende adgangskode for at fortsætte.',
+            'repeatPassword' => 'Venligst bekræft din nye adgangskode.',
+
         ]);
 
         $id = $request->route('id');
