@@ -131,7 +131,7 @@ export default function Login() {
                     </div>
                     {loading ? (
                         /* This shows when loading is TRUE */
-                        <button className="bg-[#1E3A8A] text-white text-xl py-2 px-10 rounded-xl opacity-70 cursor-progress">
+                        <button className="bg-[#1E3A8A] animate-pulse text-white text-xl py-2 px-10 rounded-xl opacity-70 cursor-progress">
                             Loading...
                         </button>
                     ) : (

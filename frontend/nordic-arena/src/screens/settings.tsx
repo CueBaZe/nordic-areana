@@ -294,7 +294,7 @@ export default function Settings() {
                                                 Gem
                                             </button>
                                         ) : (
-                                            <button className="bg-gray-400 rounded-xl text-white text-xl font-semibold w-[100px] cursor-disabled p-2">
+                                            <button className="bg-gray-400 animate-pulse rounded-xl text-white text-xl font-semibold w-[100px] cursor-disabled p-2">
                                                 Loading...
                                             </button>
                                         )}
@@ -347,11 +347,20 @@ export default function Settings() {
                                             </div>
                                         )}
 
-                                        <div>
-                                            <button onClick={handleChangePassword} className="bg-green-400 rounded-xl text-white text-xl font-semibold p-2 w-[100px] transtion-transform duration-300 hover:scale-110 cursor-pointer">
-                                                Gem
-                                            </button>
-                                        </div>
+                                        {loading ? (
+                                            <div>
+                                                <button className="bg-gray-400 animate-pulse rounded-xl text-white text-xl font-semibold p-2 w-[100px] cursor-disabled">
+                                                    Loading...
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <button onClick={handleChangePassword} className="bg-green-400 rounded-xl text-white text-xl font-semibold p-2 w-[100px] transtion-transform duration-300 hover:scale-110 cursor-pointer">
+                                                    Gem
+                                                </button>
+                                            </div>
+                                        )}
+                                        
                                     </div>
                                 </div>
                             </>
