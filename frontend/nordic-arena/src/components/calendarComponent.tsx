@@ -3,6 +3,8 @@
     import { createEventModalPlugin } from '@schedule-x/event-modal'
     import { useAuth } from "./authContext";
     import { useNavigate } from "react-router-dom";
+    import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+
 
     type props = {
         calendarEvent: CalendarEvent
@@ -69,16 +71,18 @@
         const { user } = useAuth();
         const navigate = useNavigate()
 
+        const configOptions = { //Paypal config
+            'clientId': import.meta.env.VITE_PAYPAL_CLIENT_ID,
+            currency: "DKK",
+            locale: "da_DK"
+        }
+
         const FormattedStart = formatTime(calendarEvent.start);
 
         const FormattedEnd = formatTime(calendarEvent.end);
 
         async function handleBooking (event: CalendarEvent) {
             if (!user) return alert("Log ind først!");
-
-            if (!confirm(`Er du sikker på at du vil book ${event.title}...`)) {
-                return alert("Booking canceled");
-            }  
 
             const response = await fetch(`http://127.0.0.1:8000/api/createBooking/${user.id}`, {
                 method: 'POST',
@@ -123,13 +127,19 @@
 
                         <p className="text-gray-600"><span className="text-gray-700 font-bold">{calendarEvent.price}</span> Kr</p>
 
-                        <button 
-                            onClick={() => {
-                                handleBooking(calendarEvent);
-                            }} 
-                            className="bg-green-500 rounded p-1 text-white font-semibold text-md md:text-sm transtion duration-300 hover:scale-110 cursor-pointer hover:bg-green-600">
-                                Book bane
-                        </button>
+                        {/* Paypal button */}
+                        <PayPalScriptProvider options={configOptions}>
+                            <PayPalButtons //makes the paypal buttons
+                                style={{ layout: "vertical" }}
+
+                                //create order
+
+                                //approve order
+
+                                
+
+                            />
+                        </PayPalScriptProvider>
 
                     </div>
                 )}
